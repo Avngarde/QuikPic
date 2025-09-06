@@ -28,4 +28,10 @@
     <Folder Include="TestImages\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="TestImages\TestImage.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+</ItemGroup>
+
 </Project>
