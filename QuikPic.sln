@@ -5,6 +5,8 @@ VisualStudioVersion = 17.13.35828.75 d17.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuikPic", "QuikPic\QuikPic.csproj", "{500C43EB-48FB-4469-8B09-340F77A0D46C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuikPic.Tests", "QuikPic.Tests\QuikPic.Tests.csproj", "{8391513D-7D3C-4898-821B-A461E8FAF6C8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{500C43EB-48FB-4469-8B09-340F77A0D46C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{500C43EB-48FB-4469-8B09-340F77A0D46C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{500C43EB-48FB-4469-8B09-340F77A0D46C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8391513D-7D3C-4898-821B-A461E8FAF6C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8391513D-7D3C-4898-821B-A461E8FAF6C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8391513D-7D3C-4898-821B-A461E8FAF6C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8391513D-7D3C-4898-821B-A461E8FAF6C8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
