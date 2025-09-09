@@ -1,6 +1,8 @@
 using System;
 using System.Security.Cryptography.X509Certificates;
 using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Formats;
+using SixLabors.ImageSharp.Formats.Bmp;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 
@@ -28,11 +30,15 @@ public class ImageProcessor
 
     public byte[] GetImageBytes()
     {
-        throw new NotImplementedException();
+        using (var ms = new MemoryStream())
+        {
+            _image.Save(ms, _image.Metadata.DecodedImageFormat);
+            return ms.ToArray();
+        }
     }
 
-    public byte GetImageRgba32()
+    public Image<Rgba32> GetImageRgba32()
     {
-        throw new NotImplementedException();
+        return _image;
     }
 }
