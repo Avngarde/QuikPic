@@ -10,8 +10,28 @@
         </div>
     </div>
     <div class="containerHalf right">
-        <div class="photoUpload">
-            Click to select an image
-        </div>
+        @using (Html.BeginForm("UploadFile", "Home", FormMethod.Post, new { enctype = "multipart/form-data", @id="uploadForm" }))
+        {
+            <div id="photoUpload">
+                Click to select an image
+            </div>
+            <input type="file" id="fileInput" name="file" accept="image/*" style="display:none" />
+        }
     </div>
 </div>
+
+<script>
+    const uploadDiv = document.getElementById("photoUpload");
+    const fileInput = document.getElementById("fileInput");
+    const form = document.getElementById("uploadForm");
+
+    uploadDiv.addEventListener("click", () => {
+        fileInput.click();
+    });
+
+    fileInput.addEventListener("change", () => {
+        if (fileInput.files.length > 0) {
+            form.submit();
+        }
+    });
+</script>
