@@ -10,7 +10,7 @@
         </div>
     </div>
     <div class="containerHalf right">
-        @using (Html.BeginForm("UploadFile", "Home", FormMethod.Post, new { enctype = "multipart/form-data", @id="uploadForm" }))
+        @using (Html.BeginForm("UploadFile", "Home", FormMethod.Post, new { enctype = "multipart/form-data", @id="uploadForm", style="width: 60%;height: 70vh;" }))
         {
             <div id="photoUpload">
                 Click to select an image

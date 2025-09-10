@@ -45,9 +45,9 @@
     transform: translateY(-3px);
 }
 
-.photoUpload {
-    width: 60%;
-    height: 70vh;
+#photoUpload {
+    width: 100%;
+    height: 100%;
     font-size: 1.4rem;
     display: flex;
     justify-content: center;
