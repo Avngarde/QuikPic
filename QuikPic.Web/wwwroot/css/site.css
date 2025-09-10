@@ -1,4 +1,10 @@
+@font-face {
+  font-family: "Nunito";
+  src: url("./font/Nunito.ttf");
+}
+
 html {
+  font-family: "Nunito";
   font-size: 14px;
 }
 
