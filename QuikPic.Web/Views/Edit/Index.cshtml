@@ -1,12 +1,16 @@
-﻿<div class="container">
+﻿@{
+    var filePath = "/uploads/" + ViewData["fileGuid"];
+}
+
+<div class="container">
     <div class="photoContainer">
-        <div id="photoUpload">
+        <div id="photoUpload" style="background-image: url('@filePath');">
 
         </div>
     </div>
     <div class="slidersContainer">
         <div class="slidersHolder">
-            
+
         </div>
     </div>
 </div>

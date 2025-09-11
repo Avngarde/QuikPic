@@ -4,8 +4,10 @@ namespace QuikPic.Web.Controllers
 {
     public class EditController : Controller
     {
-        public IActionResult Index()
+        public IActionResult Index(string fileGuid)
         {
+            ViewData["fileGuid"] = fileGuid;
+
             return View();
         }
     }
