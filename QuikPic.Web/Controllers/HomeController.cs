@@ -21,13 +21,18 @@ public class HomeController : Controller
     [HttpPost]
     public IActionResult UploadFile(IFormFile file)
     {
-        if (file != null && file.Length > 0)
+        string filePath = "";
+        string fileGuid = "";
+        if (file != null && file.Length > 0) 
         {
             var uploadDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
             if (!Directory.Exists(uploadDir))
                 Directory.CreateDirectory(uploadDir);
 
-            var filePath = Path.Combine(uploadDir, file.FileName);
+            var uniqueFileGuid = Guid.NewGuid().ToString();
+            fileGuid = uniqueFileGuid + Path.GetExtension(file.FileName);
+
+            filePath = Path.Combine(uploadDir, uniqueFileGuid + Path.GetExtension(file.FileName));
 
             using (var stream = new FileStream(filePath, FileMode.Create))
             {
@@ -35,7 +40,7 @@ public class HomeController : Controller
             }
         }
 
-        return RedirectToAction("Index", "Edit");
+        return RedirectToAction("Index", "Edit", new { fileGuid = fileGuid });
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
