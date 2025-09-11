@@ -10,4 +10,8 @@
     <Folder Include="wwwroot\css\font\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\QuikPic\QuikPic.csproj" />
+  </ItemGroup>
+
 </Project>

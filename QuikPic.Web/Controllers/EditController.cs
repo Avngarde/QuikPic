@@ -7,7 +7,7 @@ namespace QuikPic.Web.Controllers
         public IActionResult Index(string fileGuid)
         {
             ViewData["fileGuid"] = fileGuid;
-
+            
             return View();
         }
     }

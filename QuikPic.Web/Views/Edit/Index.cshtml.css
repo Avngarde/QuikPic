@@ -33,13 +33,14 @@
 }
 
 #photoUpload {
-    width: 45%;
-    height: 90%;
+    width: 80%;
+    height: 60vh;
     font-weight: bold;
     border-radius: 15px;
     background: linear-gradient(145deg, #d9ebfb, #b7c6d4);
     box-shadow:  20px 20px 0px #b7c6d4,
                 -20px -20px 0px #dff2ff;
-    background-size: cover;
+    background-size: contain;
+    background-repeat: no-repeat;
     background-position: center;
 }
