@@ -30,6 +30,16 @@
 
     justify-content: center;
     align-items: center;
+
+    display: flex;
+    gap: 2vh;
+}
+
+.sliderHolder {
+    font-size: 2.2vh;
+    display: flex;
+    align-items: center;
+    gap: 0.7vh;
 }
 
 #photoUpload {
@@ -43,4 +53,13 @@
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
+}
+
+.downloadButton {
+    background-color: #b7c6d4;
+    border-radius: 15px;
+    padding: 0.8% 1.5% 0.8% 1.5%;
+    border: none;
+    background: linear-gradient(145deg, #d9ebfb, #b7c6d4);
+    box-shadow: 5px 5px 5px #b7c6d4, -2px -2px 0px #dff2ff;
 }
