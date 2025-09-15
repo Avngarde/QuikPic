@@ -10,24 +10,60 @@
     </div>
     <div class="slidersContainer">
         <div class="slidersHolder">
-            <div class="sliderHolder">
-               <label for="">Brightness</label>
-               <input type="range" min="0" max="1" value="1" step="0.01" />
-            </div>
-            <div class="sliderHolder">
-                <label for="">Grayscale</label>
-                <input type="range" min="0" max="1" value="0" step="0.01" />
-            </div>
-            <div class="sliderHolder">
-                <label for="">Contrast</label>
-                <input type="range" min="-10" max="10" value="0" step="0.01" />
-            </div>
-            <div class="sliderHolder">
-                <label for="">Saturation</label>
-                <input type="range" min="-10" max="10" value="0" step="0.01" />
-            </div>
+            @using (Html.BeginForm("EditPhoto", "Edit", FormMethod.Post, new { enctype = "multipart/form-data", @id = "uploadForm", style = "width: 100%; height: 40vh;" }))
+            {
+                <div class="sliderHolder">
+                    <label for="">Brightness</label>
+                    <input type="range" min="0" max="1" value="1" step="0.01" name="Brightness" id="Brightness" />
 
-            <button class="downloadButton">Download</button>
+                </div>
+                <div class="sliderHolder">
+                    <label for="">Grayscale</label>
+                    <input type="range" min="0" max="1" value="0" step="0.01" name="Grayscale" id="Grayscale" />
+                </div>
+                <div class="sliderHolder">
+                    <label for="">Contrast</label>
+                    <input type="range" min="-10" max="10" value="0" step="0.01" name="Contrast" id="Contrast" />
+                </div>
+                <div class="sliderHolder">
+                    <label for="">Saturation</label>
+                    <input type="range" min="-10" max="10" value="0" step="0.01" name="Saturation" id="Saturation" />
+                </div>
+
+                <input type="submit" class="downloadButton" value="Download">
+            }
         </div>
     </div>
 </div>
+
+<script>
+    const photo = document.getElementById('photoUpload');
+
+    const sliders = {
+        brightness: document.getElementById('Brightness'),
+        grayscale: document.getElementById('Grayscale'),
+        contrast: document.getElementById('Contrast'),
+        saturation: document.getElementById('Saturation')
+    };
+
+    function updateFilter() {
+        const b = sliders.brightness.value;
+        const g = sliders.grayscale.value;
+        const c = sliders.contrast.value;
+        const s = sliders.saturation.value;
+
+        photo.style.filter = `
+                brightness(${b})
+                grayscale(${g})
+                contrast(${c})
+                saturate(${s})
+            `;
+    }
+
+    Object.values(sliders).forEach(slider => {
+        slider.addEventListener('input', updateFilter);
+    });
+
+    // Initialize
+    updateFilter();
+</script>

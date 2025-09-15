@@ -10,5 +10,10 @@ namespace QuikPic.Web.Controllers
             
             return View();
         }
+
+        public IActionResult EditPhoto(EditData editData)
+        {
+            return View();
+        }
     }
 }
