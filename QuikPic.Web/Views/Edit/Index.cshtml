@@ -14,20 +14,20 @@
         {
             <div class="slidersHolder">
                 <div class="sliderHolder">
-                    <label for="">Brightness</label>
+                    <label id="brightnessLabel" for="">Brightness: 1.0</label>
                     <input type="range" min="0" max="1" value="1" step="0.01" name="Brightness" id="Brightness" />
 
                 </div>
                 <div class="sliderHolder">
-                    <label for="">Grayscale</label>
+                    <label id="grayscaleLabel" for="">Grayscale: 0.0</label>
                     <input type="range" min="0" max="1" value="0" step="0.01" name="Grayscale" id="Grayscale" />
                 </div>
                 <div class="sliderHolder">
-                    <label for="">Contrast</label>
+                    <label id="contrastLabel" for="">Contrast: 1.0</label>
                     <input type="range" min="0" max="2" value="1" step="0.01" name="Contrast" id="Contrast" />
                 </div>
                 <div class="sliderHolder">
-                    <label for="">Saturation</label>
+                    <label id="saturationLabel" for="">Saturation: 1.0</label>
                     <input type="range" min="0" max="2" value="1" step="0.01" name="Saturation" id="Saturation" />
                 </div>
 
@@ -59,10 +59,18 @@
                 contrast(${c})
                 saturate(${s})
             `;
+
+        document.getElementById('brightnessLabel').innerText = "Brightness: " + b;
+        document.getElementById('grayscaleLabel').innerText = "Grayscale: " + g;
+        document.getElementById('contrastLabel').innerText = "Contrast: " + c;
+        document.getElementById('saturationLabel').innerText = "Saturation: " + s;  
     }
 
     Object.values(sliders).forEach(slider => {
-        slider.addEventListener('input', updateFilter);
+        slider.addEventListener('input', () => {
+            updateFilter();
+            updateLabels();
+        });
     });
 
     // Initialize
