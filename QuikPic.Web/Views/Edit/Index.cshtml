@@ -9,7 +9,7 @@
         </div>
     </div>
     <div class="slidersContainer">
-        @using (Html.BeginForm("EditPhoto", "Edit", FormMethod.Post, new { enctype = "multipart/form-data", @id = "uploadForm", 
+        @using (Html.BeginForm("EditPhoto", "Edit", FormMethod.Post, new { enctype = "application/json", @id = "uploadForm", 
                                style = "width: 100%; display: flex; justify-content: center; align-items: center;" }))
         {
             <div class="slidersHolder">
