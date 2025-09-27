@@ -9,14 +9,15 @@
         </div>
     </div>
     <div class="slidersContainer">
-        @using (Html.BeginForm("EditPhoto", "Edit", FormMethod.Post, new { enctype = "application/json", @id = "uploadForm", 
-                               style = "width: 100%; display: flex; justify-content: center; align-items: center;" }))
+        @using (Html.BeginForm("EditPhoto", "Edit", FormMethod.Post, new { 
+            @id = "uploadForm", 
+            style = "width: 100%; display: flex; justify-content: center; align-items: center;" 
+        }))
         {
             <div class="slidersHolder">
                 <div class="sliderHolder">
                     <label id="brightnessLabel" for="">Brightness: 1.0</label>
                     <input type="range" min="0" max="1" value="1" step="0.01" name="Brightness" id="Brightness" />
-
                 </div>
                 <div class="sliderHolder">
                     <label id="grayscaleLabel" for="">Grayscale: 0.0</label>
@@ -31,6 +32,7 @@
                     <input type="range" min="0" max="2" value="1" step="0.01" name="Saturation" id="Saturation" />
                 </div>
 
+                <input type="text" readonly name="fileName" id="fileName" value="@filePath" />
                 <input type="submit" class="downloadButton" value="Download">
             </div>
         }
