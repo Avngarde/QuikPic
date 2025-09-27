@@ -7,10 +7,12 @@ namespace QuikPic.Web.Controllers;
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
+    private readonly IWebHostEnvironment _env;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(ILogger<HomeController> logger, IWebHostEnvironment env)
     {
         _logger = logger;
+        _env = env;
     }
 
     public IActionResult Index()
@@ -25,7 +27,7 @@ public class HomeController : Controller
         string fileGuid = "";
         if (file != null && file.Length > 0) 
         {
-            var uploadDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
+            var uploadDir = Path.Combine(_env.WebRootPath, "uploads");
             if (!Directory.Exists(uploadDir))
                 Directory.CreateDirectory(uploadDir);
 
