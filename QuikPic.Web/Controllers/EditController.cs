@@ -30,7 +30,9 @@ namespace QuikPic.Web.Controllers
             imageProcessor.ProcessImage(editData);
             var imageBytes = imageProcessor.GetImageBytes();
 
-            return File(imageBytes, MediaTypeNames.Image.Jpeg, "image.jpg");
+            string downloadFileName = fileName.Replace("/uploads/", "");
+
+            return File(imageBytes, MediaTypeNames.Image.Jpeg, downloadFileName);
         }
     }
 }
