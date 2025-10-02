@@ -19,5 +19,10 @@ namespace QuikPic
 
             return image;
         }
+
+        public static void SaveImageToPath(Image<Rgba32> image, string path)
+        {
+            image.Save(path);
+        }
     }
 }
