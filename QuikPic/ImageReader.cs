@@ -3,7 +3,7 @@ using SixLabors.ImageSharp.PixelFormats;
 
 namespace QuikPic
 {
-    public static class ImageReader
+    public static class ImageHandler
     {
         public static Image<Rgba32> LoadImageFromPath(string path)
         {

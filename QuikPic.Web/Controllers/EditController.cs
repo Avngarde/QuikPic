@@ -24,7 +24,7 @@ namespace QuikPic.Web.Controllers
             string fileNameTrimmed = fileName.TrimStart(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
             var path = Path.Combine(_env.WebRootPath, fileNameTrimmed);
 
-            var image = ImageReader.LoadImageFromPath(path);
+            var image = ImageHandler.LoadImageFromPath(path);
             ImageProcessor imageProcessor = new(image);
 
             imageProcessor.ProcessImage(editData);

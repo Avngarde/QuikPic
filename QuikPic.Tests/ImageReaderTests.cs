@@ -8,7 +8,7 @@ namespace QuikPic.Tests
         public void LoadImageFromPath_ForTestImagePath_ReturnsRgba32()
         {
             string path = @"./TestImages/TestImage.png";
-            var file = ImageReader.LoadImageFromPath(path);
+            var file = ImageHandler.LoadImageFromPath(path);
 
             // TestImage.png is 272 x 193 pixels
             Assert.Equal(272, file.Size.Width);
@@ -20,7 +20,7 @@ namespace QuikPic.Tests
         {
             string path = @"./TestImages/TestImage.png";
             byte[] fileBytes = File.ReadAllBytes(path);
-            var file = ImageReader.LoadImageFromBytes(fileBytes);
+            var file = ImageHandler.LoadImageFromBytes(fileBytes);
             
             // TestImage.png is 272 x 193 pixels
             Assert.Equal(272, file.Size.Width);
