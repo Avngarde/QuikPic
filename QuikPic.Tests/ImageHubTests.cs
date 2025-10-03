@@ -16,7 +16,7 @@ public class ImageHubTests
         var mockClients = new Mock<IHubCallerClients>();
         var mockCaller = new Mock<ISingleClientProxy>();
 
-        mockEnv.SetupGet(e => e.ContentRootPath).Returns(Path.GetTempPath());
+        mockEnv.SetupGet(e => e.WebRootPath).Returns(AppContext.BaseDirectory);
         mockCaller
             .Setup(c => c.SendCoreAsync(
                 "ImageUpdated",

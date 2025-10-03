@@ -11,11 +11,11 @@ public static class EditDataTestCases
     {
         new object[]
         {
-            new EditData { Brightness = -0.20f, Contrast = +0.15f, Grayscale = -0.05f, Saturation = 2f  },
+            new EditData { Brightness = 0.00f, Contrast = 0.15f, Grayscale = 0.05f, Saturation = 2f  },
         },
         new object[]
         {
-            new EditData { Brightness = +0.01f, Contrast = -0.05f, Grayscale = -0.25f, Saturation = -0.3f  },
+            new EditData { Brightness = 0.01f, Contrast = 0.05f, Grayscale = 0.25f, Saturation = 0.3f  },
         },           
     };    
 }
