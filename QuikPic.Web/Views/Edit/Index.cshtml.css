@@ -21,7 +21,7 @@
 }
 
 .slidersHolder {
-    width: 80%;
+    width: 90%;
     height: 10vh;
     border-radius: 15px;
     background: linear-gradient(145deg, #d9ebfb, #b7c6d4);
@@ -42,7 +42,7 @@
 }
 
 #photoUpload {
-    width: 80%;
+    width: 90%;
     height: 60vh;
     font-weight: bold;
     border-radius: 15px;
