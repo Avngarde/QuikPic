@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.SignalR;
+using QuikPic.Web.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,10 +22,12 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
+app.MapHub<ImageHub>("/ImageHub");
 app.Run();

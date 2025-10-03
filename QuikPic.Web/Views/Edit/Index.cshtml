@@ -41,6 +41,7 @@
 
 <script>
     const photo = document.getElementById('photoUpload');
+    const filePath = "@filePath";
 
     const sliders = {
         brightness: document.getElementById('Brightness'),
@@ -49,23 +50,50 @@
         saturation: document.getElementById('Saturation')
     };
 
-    function updateFilter() {
+    const connection = new signalR.HubConnectionBuilder()
+        .withUrl('/ImageHub')
+        .build();
+
+    connection.on("ImageUpdated", (url) => {
+        document.getElementById('photoUpload').style = `background-image: url('${url}?t=${new Date().getTime()}')`;
+        console.log("Image updated");
+    });
+
+    connection.on("ImageError", (message) => {
+        console.log("SignalR Error: " + message);
+    });
+
+    async function startSignalRConnection()
+    {
+        try {
+            await connection.start();
+            console.log("SignalR connected!");
+            connectionStarted = true;
+        } catch (err) {
+            console.error("Connection failed, retrying in 5s", err);
+            setTimeout(startConnection, 5000);
+        }        
+    }
+
+    async function updateFilter() {
         const b = sliders.brightness.value;
         const g = sliders.grayscale.value;
         const c = sliders.contrast.value;
         const s = sliders.saturation.value;
 
-        photo.style.filter = `
-                brightness(${b})
-                grayscale(${g})
-                contrast(${c})
-                saturate(${s})
-            `;
-
         document.getElementById('brightnessLabel').innerText = "Brightness: " + b;
         document.getElementById('grayscaleLabel').innerText = "Grayscale: " + g;
         document.getElementById('contrastLabel').innerText = "Contrast: " + c;
         document.getElementById('saturationLabel').innerText = "Saturation: " + s;  
+
+        const request = {
+            Grayscale: parseFloat(g),
+            Contrast: parseFloat(c),
+            Brightness: parseFloat(b),
+            Saturation: parseFloat(s)
+        };
+
+        await connection.invoke("ApplyFiltersToImage", request, filePath);
     }
 
     Object.values(sliders).forEach(slider => {
@@ -75,6 +103,5 @@
         });
     });
 
-    // Initialize
-    updateFilter();
+    startSignalRConnection();
 </script>
