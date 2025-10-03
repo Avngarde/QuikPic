@@ -21,10 +21,10 @@ public class ImageProcessor
     {
         _image.Mutate(img =>
         {
-            img.Brightness(1f + editData.Brightness);
-            img.Contrast(1f + editData.Contrast);
-            img.Saturate(1f + editData.Saturation);
-            img.Grayscale(1f + editData.Grayscale);
+            img.Brightness(editData.Brightness);
+            img.Contrast(editData.Contrast);
+            img.Saturate(editData.Saturation);
+            img.Grayscale(editData.Grayscale);
         });
     }
 
