@@ -1,5 +1,6 @@
 ﻿using System.Net.Mime;
 using Microsoft.AspNetCore.Mvc;
+using System.IO;
 
 namespace QuikPic.Web.Controllers
 {
@@ -23,15 +24,14 @@ namespace QuikPic.Web.Controllers
         {
             string fileNameTrimmed = fileName.TrimStart(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
             var path = Path.Combine(_env.WebRootPath, fileNameTrimmed);
-
+            /*
             var image = ImageHandler.LoadImageFromPath(path);
             ImageProcessor imageProcessor = new(image);
-
             imageProcessor.ProcessImage(editData);
             var imageBytes = imageProcessor.GetImageBytes();
-
+            */
+            var imageBytes = System.IO.File.ReadAllBytes(path);
             string downloadFileName = fileName.Replace("/uploads/", "");
-
             return File(imageBytes, MediaTypeNames.Image.Jpeg, downloadFileName);
         }
     }
