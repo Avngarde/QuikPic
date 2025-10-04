@@ -21,10 +21,12 @@ public class ImageHub : Hub
             ImageProcessor processor = new(image);
             processor.ProcessImage(editData);
 
+            string previewFileName = fileNameTrimmed.Replace(".", "_temp.");
+            string previewFilePath = Path.Combine(_env.WebRootPath, previewFileName); 
             var editedImage = processor.GetImageRgba32();
-            ImageHandler.SaveImageToPath(editedImage, path);
+            ImageHandler.SaveImageToPath(editedImage, previewFilePath);
 
-            await Clients.Caller.SendAsync("ImageUpdated", fileNameTrimmed);
+            await Clients.Caller.SendAsync("ImageUpdated", previewFileName);
         }
         catch (Exception ex)
         {
