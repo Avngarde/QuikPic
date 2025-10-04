@@ -42,7 +42,6 @@
 }
 
 #photoUpload {
-    width: 90%;
     height: 60vh;
     font-weight: bold;
     border-radius: 15px;
@@ -52,6 +51,7 @@
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
+    margin-top: 8%;
 }
 
 .downloadButton {
