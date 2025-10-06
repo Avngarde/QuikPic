@@ -46,13 +46,13 @@
                 </div>
 
                 <div class="sliderHolder">
-                    <label id="vignetteLabel">Vignette: 0.0</label>
-                    <input type="range" min="0" max="2" value="0" step="0.01" name="Vignette" id="Vignette" />
+                    <label id="grainLabel">Grain: 0.0</label>
+                    <input type="range" min="0" max="3" value="0" step="0.01" name="Grain" id="Grain" />
                 </div>
 
                 <div class="sliderHolder">
-                    <label id="grainLabel">Grain: 0.0</label>
-                    <input type="range" min="0" max="3" value="0" step="0.01" name="Grain" id="Grain" />
+                    <label id="vignetteLabel">Vignette: 0.0</label>
+                    <input type="range" min="0" max="2" value="0" step="0.01" name="Vignette" id="Vignette" />
                 </div>
 
                 <input type="text" readonly id="fileName" name="fileName" value="@filePath" hidden />
@@ -116,9 +116,11 @@
         // Update labels
         for (const [key, slider] of Object.entries(sliders)) {
             const label = document.getElementById(`${key}Label`);
-            if (label) label.innerText = `${key.charAt(0).toUpperCase() + key.slice(1)}: ${slider.value}`;
+            if (label) 
+                label.innerText = `${key.charAt(0).toUpperCase() + key.slice(1)}: ${slider.value}`;
         }
 
+        console.log(request);
         // Send to backend
         await connection.invoke("ApplyFiltersToImage", request, filePath);
     }
@@ -130,5 +132,10 @@
         });
     });
 
+    document.getElementById('uploadForm').addEventListener('submit', (e) => {
+        console.log(sliders);
+    });
+
     startSignalRConnection();
+    updateFilter();
 </script>

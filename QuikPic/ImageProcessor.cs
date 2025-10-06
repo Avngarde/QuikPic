@@ -19,7 +19,7 @@ namespace QuikPic
         public void ProcessImage(EditData editData)
         {
             // --- Note: Brightness/Contrast/Saturation expected as multipliers (1.0 = neutral) ---
-            if (Math.Abs(editData.Brightness - 1f) > 0.0001f)
+            if (editData.Brightness >= 0)
                 _image.Mutate(x => x.Brightness(editData.Brightness));
 
             if (Math.Abs(editData.Contrast - 1f) > 0.0001f)

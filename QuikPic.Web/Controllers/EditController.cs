@@ -20,19 +20,22 @@ namespace QuikPic.Web.Controllers
             return View();
         }
 
-        public IActionResult EditPhoto(EditData editData, string fileName)
+        [HttpPost]
+        public IActionResult EditPhoto([FromForm] EditData editData, string fileName)
         {
-            string fileNameTrimmed = fileName.TrimStart(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+            string fileNameTrimmed = fileName
+                .TrimStart(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)
+                .Replace(".", "_temp.");
+                
             var path = Path.Combine(_env.WebRootPath, fileNameTrimmed);
             var image = ImageHandler.LoadImageFromPath(path);
 
             ImageProcessor imageProcessor = new(image);
-            imageProcessor.ProcessImage(editData);
             var imageBytes = imageProcessor.GetImageBytes();
 
             string downloadFileName = fileName.Replace("/uploads/", "");
 
-            System.IO.File.Delete(Path.Combine(_env.WebRootPath, fileNameTrimmed.Replace(".", "_temp.")));
+            System.IO.File.Delete(Path.Combine(_env.WebRootPath, fileNameTrimmed));
             return File(imageBytes, MediaTypeNames.Image.Jpeg, downloadFileName);
         }
     }
