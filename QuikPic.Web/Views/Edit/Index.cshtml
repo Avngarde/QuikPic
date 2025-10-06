@@ -83,19 +83,16 @@
 
     connection.on("ImageUpdated", (url) => {
         document.getElementById('photoUpload').src = `${url}?t=${new Date().getTime()}`;
-        console.log("Image updated");
     });
 
     connection.on("ImageError", (message) => {
-        console.log("SignalR Error: " + message);
+        console.log("Processing error: " + message);
     });
 
     async function startSignalRConnection() {
         try {
             await connection.start();
-            console.log("SignalR connected!");
         } catch (err) {
-            console.error("Connection failed, retrying in 5s", err);
             setTimeout(startSignalRConnection, 5000);
         }
     }
