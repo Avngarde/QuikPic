@@ -6,6 +6,7 @@
     <div class="photoContainer">
         <img id="photoUpload" src="@filePath" />
     </div>
+
     <div class="slidersContainer">
         @using (Html.BeginForm("EditPhoto", "Edit", FormMethod.Post, new { 
             @id = "uploadForm", 
@@ -13,24 +14,48 @@
         }))
         {
             <div class="slidersHolder">
+
                 <div class="sliderHolder">
-                    <label id="brightnessLabel" for="">Brightness: 1.0</label>
-                    <input type="range" min="0" max="1" value="1" step="0.01" name="Brightness" id="Brightness" />
-                </div>
-                <div class="sliderHolder">
-                    <label id="grayscaleLabel" for="">Grayscale: 0.0</label>
-                    <input type="range" min="0" max="1" value="0" step="0.01" name="Grayscale" id="Grayscale" />
-                </div>
-                <div class="sliderHolder">
-                    <label id="contrastLabel" for="">Contrast: 1.0</label>
-                    <input type="range" min="0" max="2" value="1" step="0.01" name="Contrast" id="Contrast" />
-                </div>
-                <div class="sliderHolder">
-                    <label id="saturationLabel" for="">Saturation: 1.0</label>
-                    <input type="range" min="0" max="2" value="1" step="0.01" name="Saturation" id="Saturation" />
+                    <label id="brightnessLabel">Brightness: 1.0</label>
+                    <input type="range" min="0" max="2" value="1" step="0.01" id="Brightness" />
                 </div>
 
-                <input type="text" readonly name="fileName" id="fileName" value="@filePath" style="display: none;" />
+                <div class="sliderHolder">
+                    <label id="contrastLabel">Contrast: 1.0</label>
+                    <input type="range" min="0" max="2" value="1" step="0.01" id="Contrast" />
+                </div>
+
+                <div class="sliderHolder">
+                    <label id="saturationLabel">Saturation: 1.0</label>
+                    <input type="range" min="0" max="2" value="1" step="0.01" id="Saturation" />
+                </div>
+
+                <div class="sliderHolder">
+                    <label id="grayscaleLabel">Grayscale: 0.0</label>
+                    <input type="range" min="0" max="1" value="0" step="0.01" id="Grayscale" />
+                </div>
+
+                <div class="sliderHolder">
+                    <label id="temperatureLabel">Temperature: 0.0</label>
+                    <input type="range" min="-1" max="1" value="0" step="0.01" id="Temperature" />
+                </div>
+
+                <div class="sliderHolder">
+                    <label id="tintLabel">Tint: 0.0</label>
+                    <input type="range" min="-1" max="1" value="0" step="0.01" id="Tint" />
+                </div>
+
+                <div class="sliderHolder">
+                    <label id="vignetteLabel">Vignette: 0.0</label>
+                    <input type="range" min="0" max="2" value="0" step="0.01" id="Vignette" />
+                </div>
+
+                <div class="sliderHolder">
+                    <label id="grainLabel">Grain: 0.0</label>
+                    <input type="range" min="0" max="3" value="0" step="0.01" id="Grain" />
+                </div>
+
+                <input type="text" readonly id="fileName" value="@filePath" hidden />
                 <input type="submit" class="downloadButton" value="Download">
             </div>
         }
@@ -43,9 +68,13 @@
 
     const sliders = {
         brightness: document.getElementById('Brightness'),
-        grayscale: document.getElementById('Grayscale'),
         contrast: document.getElementById('Contrast'),
-        saturation: document.getElementById('Saturation')
+        saturation: document.getElementById('Saturation'),
+        grayscale: document.getElementById('Grayscale'),
+        temperature: document.getElementById('Temperature'),
+        tint: document.getElementById('Tint'),
+        vignette: document.getElementById('Vignette'),
+        grain: document.getElementById('Grain')
     };
 
     const connection = new signalR.HubConnectionBuilder()
@@ -61,39 +90,40 @@
         console.log("SignalR Error: " + message);
     });
 
-    async function startSignalRConnection()
-    {
+    async function startSignalRConnection() {
         try {
             await connection.start();
             console.log("SignalR connected!");
-            connectionStarted = true;
         } catch (err) {
             console.error("Connection failed, retrying in 5s", err);
-            setTimeout(startConnection, 5000);
-        }        
+            setTimeout(startSignalRConnection, 5000);
+        }
     }
 
     async function updateFilter() {
-        const b = sliders.brightness.value;
-        const g = sliders.grayscale.value;
-        const c = sliders.contrast.value;
-        const s = sliders.saturation.value;
-
-        document.getElementById('brightnessLabel').innerText = "Brightness: " + b;
-        document.getElementById('grayscaleLabel').innerText = "Grayscale: " + g;
-        document.getElementById('contrastLabel').innerText = "Contrast: " + c;
-        document.getElementById('saturationLabel').innerText = "Saturation: " + s;  
-
+        // Get values
         const request = {
-            Grayscale: parseFloat(g),
-            Contrast: parseFloat(c),
-            Brightness: parseFloat(b),
-            Saturation: parseFloat(s)
+            Brightness: parseFloat(sliders.brightness.value),
+            Contrast: parseFloat(sliders.contrast.value),
+            Saturation: parseFloat(sliders.saturation.value),
+            Grayscale: parseFloat(sliders.grayscale.value),
+            Temperature: parseFloat(sliders.temperature.value),
+            Tint: parseFloat(sliders.tint.value),
+            Vignette: parseFloat(sliders.vignette.value),
+            Grain: parseFloat(sliders.grain.value)
         };
 
+        // Update labels
+        for (const [key, slider] of Object.entries(sliders)) {
+            const label = document.getElementById(`${key}Label`);
+            if (label) label.innerText = `${key.charAt(0).toUpperCase() + key.slice(1)}: ${slider.value}`;
+        }
+
+        // Send to backend
         await connection.invoke("ApplyFiltersToImage", request, filePath);
     }
 
+    // Add change listeners
     Object.values(sliders).forEach(slider => {
         slider.addEventListener('change', () => {
             updateFilter();
