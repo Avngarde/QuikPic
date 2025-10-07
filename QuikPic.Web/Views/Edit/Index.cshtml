@@ -97,8 +97,15 @@
         }
     }
 
+    function updateLabels() {
+        for (const [key, slider] of Object.entries(sliders)) {
+            const label = document.getElementById(`${key}Label`);
+            if (label) 
+                label.innerText = `${key.charAt(0).toUpperCase() + key.slice(1)}: ${slider.value}`;
+        }       
+    }
+
     async function updateFilter() {
-        // Get values
         const request = {
             Brightness: parseFloat(sliders.brightness.value),
             Contrast: parseFloat(sliders.contrast.value),
@@ -110,15 +117,8 @@
             Grain: parseFloat(sliders.grain.value)
         };
 
-        // Update labels
-        for (const [key, slider] of Object.entries(sliders)) {
-            const label = document.getElementById(`${key}Label`);
-            if (label) 
-                label.innerText = `${key.charAt(0).toUpperCase() + key.slice(1)}: ${slider.value}`;
-        }
+        updateLabels();
 
-        console.log(request);
-        // Send to backend
         await connection.invoke("ApplyFiltersToImage", request, filePath);
     }
 
@@ -126,6 +126,12 @@
     Object.values(sliders).forEach(slider => {
         slider.addEventListener('change', () => {
             updateFilter();
+        });
+    });
+
+    Object.values(sliders).forEach(slider => {
+        slider.addEventListener('input', () => {
+            updateLabels();
         });
     });
 
