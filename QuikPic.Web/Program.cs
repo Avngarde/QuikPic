@@ -1,5 +1,8 @@
 using Microsoft.AspNetCore.SignalR;
+using QuikPic.Web;
 using QuikPic.Web.Hubs;
+using Microsoft.EntityFrameworkCore.Sqlite;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,7 +10,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddSignalR();
 
-var app = builder.Build();
+builder.Services.AddDbContext<QuikPicContext>(options =>
+    options.UseSqlite(
+        builder.Configuration.GetConnectionString("Default")
+    )
+);
+
+var app = builder.Build(); 
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
