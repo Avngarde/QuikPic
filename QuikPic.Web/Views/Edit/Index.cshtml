@@ -3,6 +3,15 @@
 }
 
 <div class="container">
+    <div class="presetsHolder">
+        <button class="presetButton">Presets</button>
+
+        <div class="menuShadow"></div>
+
+        <div class="presetMenu">
+            <div class="presetMenuCloseButton">x</div>
+        </div>
+    </div>
     <div class="photoContainer">
         <img id="photoUpload" src="@filePath" />
     </div>
@@ -141,4 +150,28 @@
 
     startSignalRConnection();
     updateFilter();
+</script>
+
+<script>
+    function openPresetMenu() {
+        document.getElementsByClassName("menuShadow")[0].style = "visibility: visible";
+        document.getElementsByClassName("presetMenu")[0].style = "visibility: visible";
+    }
+
+    function closePresetMenu() {
+        document.getElementsByClassName("menuShadow")[0].style = "visibility: collapse";
+        document.getElementsByClassName("presetMenu")[0].style = "visibility: collapse";
+    }
+
+    document.getElementsByClassName("presetButton")[0].addEventListener('click', (e) => {
+        openPresetMenu();
+    });
+
+    document.getElementsByClassName("menuShadow")[0].addEventListener('click', (e) => {
+        closePresetMenu();
+    });
+
+    document.getElementsByClassName("presetMenuCloseButton")[0].addEventListener('click', (e) => {
+        closePresetMenu();
+    });
 </script>
