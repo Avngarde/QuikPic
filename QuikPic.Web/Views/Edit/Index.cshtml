@@ -248,6 +248,17 @@
         document.getElementsByClassName("addPresetForm")[0].style = "visibility: collapse;";
     }
 
+    function setPresetSliders()
+    {
+        for (const [key, slider] of Object.entries(sliders)) {
+            let sliderNameCapitalised = String(slider.name).charAt(0).toUpperCase() + String(slider.name).slice(1);
+            console.log(key);
+            console.log(sliderNameCapitalised);
+            document.getElementById(`${key}PresetLabel`).innerText = `${sliderNameCapitalised}: ${slider.value}`;
+            document.getElementById(`${sliderNameCapitalised}Preset`).value = slider.value;
+        }       
+    }
+
     function openAddPresetForm () {
         document.getElementsByClassName("addPresetForm")[0].style = "visibility: visible;";
     }
@@ -258,9 +269,7 @@
 
     document.getElementsByClassName("addNewPreset")[0].addEventListener('click', (e) => {
         closePresetMenu();
+        setPresetSliders();
         openAddPresetForm();
     });
-</script>
-
-<script>
 </script>
