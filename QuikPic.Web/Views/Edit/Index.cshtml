@@ -3,6 +3,70 @@
 }
 
 <div class="container">
+    <div class="addPresetForm">
+        <div class="addPresetFormBackground">
+            <div class="addPresetFormHolder">
+                @using (Html.BeginForm("EditPhoto", "Edit", FormMethod.Post, new { 
+                    @id = "uploadForm", 
+                    style = "display: flex; flex-direction: column; justify-content: center; padding: 5%; gap: 2vh;" 
+                }))
+                {
+                    <div style="display: flex; justify-content: space-between; margin: 0% 10% 0% 10%;">
+                        <h1>Add preset</h1>
+                        <h1 class="closeAddPresetForm">x</h1>
+                    </div>
+
+                    <input type="text" name="Name" id="Name" class="presetNameInput" placeholder="Preset name" />
+
+                    <div class="slidersPresetsHolder">
+                        <div class="sliderPresetHolder">
+                            <label id="brightnessPresetLabel">Brightness: 1.0</label>
+                            <input type="range" min="0" max="2" value="1" step="0.01" name="Brightness" id="BrightnessPreset" />
+                        </div>
+
+                        <div class="sliderPresetHolder">
+                            <label id="contrastPresetLabel">Contrast: 1.0</label>
+                            <input type="range" min="0" max="2" value="1" step="0.01" name="Contrast" id="ContrastPreset" />
+                        </div>
+
+                        <div class="sliderPresetHolder">
+                            <label id="saturationPresetLabel">Saturation: 1.0</label>
+                            <input type="range" min="0" max="2" value="1" step="0.01" name="Saturation" id="SaturationPreset" />
+                        </div>
+
+                        <div class="sliderPresetHolder">
+                            <label id="grayscalePresetLabel">Grayscale: 0.0</label>
+                            <input type="range" min="0" max="1" value="0" step="0.01" name="Grayscale" id="GrayscalePreset" />
+                        </div>
+
+                        <div class="sliderPresetHolder">
+                            <label id="temperaturePresetLabel">Temperature: 0.0</label>
+                            <input type="range" min="-1" max="1" value="0" step="0.01" name="Temperature" id="TemperaturePreset" />
+                        </div>
+
+                        <div class="sliderPresetHolder">
+                            <label id="tintPresetLabel">Tint: 0.0</label>
+                            <input type="range" min="-1" max="1" value="0" step="0.01" name="Tint" id="TintPreset" />
+                        </div>
+
+                        <div class="sliderPresetHolder">
+                            <label id="grainPresetLabel">Grain: 0.0</label>
+                            <input type="range" min="0" max="3" value="0" step="0.01" name="Grain" id="GrainPreset" />
+                        </div>
+
+                        <div class="sliderPresetHolder">
+                            <label id="vignettePresetLabel">Vignette: 0.0</label>
+                            <input type="range" min="0" max="2" value="0" step="0.01" name="Vignette" id="VignettePreset" />
+                        </div>
+
+                        <input type="text" readonly id="fileName" name="fileName" value="@filePath" hidden />
+                    </div>
+                    <input type="submit" class="slidersAddButton" value="Add preset" />
+                }            
+            </div>
+        </div>
+    </div>
+
     <div class="presetsHolder">
         <button class="presetButton">Presets</button>
 
@@ -11,7 +75,7 @@
         <div class="presetMenu">
             <div class="presetMenuCloseButton">x</div>
             <div class="presetsList">
-                <button class="preset">
+                <button class="addNewPreset">
                     + Add new preset
                 </button>
             </div>
@@ -22,7 +86,7 @@
     </div>
 
     <div class="slidersContainer">
-        @using (Html.BeginForm("EditPhoto", "Edit", FormMethod.Post, new { 
+        @using (Html.BeginForm("", "", FormMethod.Post, new { 
             @id = "uploadForm", 
             style = "width: 100%; display: flex; justify-content: center; align-items: center;" 
         }))
@@ -178,5 +242,24 @@
 
     document.getElementsByClassName("presetMenuCloseButton")[0].addEventListener('click', (e) => {
         closePresetMenu();
+    });
+</script>
+
+<script>
+    function closeAddPresetForm() {
+        document.getElementsByClassName("addPresetForm")[0].style = "visibility: collapse;";
+    }
+
+    function openAddPresetForm () {
+        document.getElementsByClassName("addPresetForm")[0].style = "visibility: visible;";
+    }
+
+    document.getElementsByClassName("closeAddPresetForm")[0].addEventListener('click', (e) => {
+        closeAddPresetForm();
+    });
+
+    document.getElementsByClassName("addNewPreset")[0].addEventListener('click', (e) => {
+        closePresetMenu();
+        openAddPresetForm();
     });
 </script>

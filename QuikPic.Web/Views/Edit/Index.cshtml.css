@@ -156,7 +156,11 @@
     font-weight: 900;  
 }
 
-.preset {
+.presetMenuCloseButton:hover {
+    cursor: pointer;
+}
+
+.addNewPreset {
     border: none;
     margin: 2%;
     padding: 2.5%;
@@ -166,7 +170,7 @@
     transition: 0.3s;
 }
 
-.preset:hover {
+.addNewPreset:hover {
   box-shadow:  -5px 5px 0px #94a1a9,
                 5px -5px 0px #ffffff;
   cursor: pointer;
@@ -179,4 +183,77 @@
     flex-direction: column;
     justify-content: center;
     gap: 1vh;
+}
+
+.addPresetFormBackground {
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    background-color: #00000091; 
+    display: flex;
+    justify-content: center; 
+}
+
+.addPresetFormHolder {
+    width: 40%;
+    position: absolute;
+    background-color: #cddfeb;
+    margin-top: 3%;
+    border-radius: 15px;
+}
+
+.slidersContainer {
+    width: 100%;
+    height: 30vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.slidersHolder {
+    width: 90%;
+    height: 10vh;
+    border-radius: 15px;
+    background: #CBDCEB;
+    box-shadow:  5px 5px 0px #cddfeb,
+             -5px -5px 0px #f1ffff;  
+
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    gap: 2vh;
+    flex-wrap: wrap;
+    padding: 0.5%;
+}
+
+.sliderPresetHolder {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0% 10% 0% 10%;
+}
+
+.slidersAddButton {
+    background-color: #b7c6d4;
+    border-radius: 5px;
+    padding: 1.5% 1.5% 1.5% 1.5%;
+    border: none;
+    background: linear-gradient(145deg, #d9ebfb, #b7c6d4);
+    box-shadow: 5px 5px 5px #b7c6d4, -2px -2px 0px #dff2ff;
+    font-weight: 700;
+    margin: 0% 10% 0% 10%;
+}
+
+.slidersPresetsHolder {
+    display: flex;
+    gap: 1vh;
+    flex-direction: column;
+}
+
+.presetNameInput {
+    border-radius: 5px;
+    padding: 1% 1% 1% 1%;
+    border: none;
+    box-shadow: 5px 5px 5px #b7c6d4, -2px -2px 0px #dff2ff;
+    margin: 0% 10% 0% 10%;
 }
