@@ -21,42 +21,42 @@
                     <div class="slidersPresetsHolder">
                         <div class="sliderPresetHolder">
                             <label id="brightnessPresetLabel">Brightness: 1.0</label>
-                            <input type="range" min="0" max="2" value="1" step="0.01" name="Brightness" id="BrightnessPreset" />
+                            <input type="range" min="0" max="2" value="1" step="0.01" name="Brightness" id="BrightnessPreset" disabled />
                         </div>
 
                         <div class="sliderPresetHolder">
                             <label id="contrastPresetLabel">Contrast: 1.0</label>
-                            <input type="range" min="0" max="2" value="1" step="0.01" name="Contrast" id="ContrastPreset" />
+                            <input type="range" min="0" max="2" value="1" step="0.01" name="Contrast" id="ContrastPreset" disabled />
                         </div>
 
                         <div class="sliderPresetHolder">
                             <label id="saturationPresetLabel">Saturation: 1.0</label>
-                            <input type="range" min="0" max="2" value="1" step="0.01" name="Saturation" id="SaturationPreset" />
+                            <input type="range" min="0" max="2" value="1" step="0.01" name="Saturation" id="SaturationPreset" disabled />
                         </div>
 
                         <div class="sliderPresetHolder">
                             <label id="grayscalePresetLabel">Grayscale: 0.0</label>
-                            <input type="range" min="0" max="1" value="0" step="0.01" name="Grayscale" id="GrayscalePreset" />
+                            <input type="range" min="0" max="1" value="0" step="0.01" name="Grayscale" id="GrayscalePreset" disabled />
                         </div>
 
                         <div class="sliderPresetHolder">
                             <label id="temperaturePresetLabel">Temperature: 0.0</label>
-                            <input type="range" min="-1" max="1" value="0" step="0.01" name="Temperature" id="TemperaturePreset" />
+                            <input type="range" min="-1" max="1" value="0" step="0.01" name="Temperature" id="TemperaturePreset" disabled />
                         </div>
 
                         <div class="sliderPresetHolder">
                             <label id="tintPresetLabel">Tint: 0.0</label>
-                            <input type="range" min="-1" max="1" value="0" step="0.01" name="Tint" id="TintPreset" />
+                            <input type="range" min="-1" max="1" value="0" step="0.01" name="Tint" id="TintPreset" disabled />
                         </div>
 
                         <div class="sliderPresetHolder">
                             <label id="grainPresetLabel">Grain: 0.0</label>
-                            <input type="range" min="0" max="3" value="0" step="0.01" name="Grain" id="GrainPreset" />
+                            <input type="range" min="0" max="3" value="0" step="0.01" name="Grain" id="GrainPreset" disabled />
                         </div>
 
                         <div class="sliderPresetHolder">
                             <label id="vignettePresetLabel">Vignette: 0.0</label>
-                            <input type="range" min="0" max="2" value="0" step="0.01" name="Vignette" id="VignettePreset" />
+                            <input type="range" min="0" max="2" value="0" step="0.01" name="Vignette" id="VignettePreset" disabled />
                         </div>
                     </div>
                     <input type="submit" class="slidersAddButton" value="Add preset" />
@@ -260,4 +260,7 @@
         closePresetMenu();
         openAddPresetForm();
     });
+</script>
+
+<script>
 </script>
