@@ -363,3 +363,5 @@ MigrationBackup/
 FodyWeavers.xsd
 
 /QuikPic.Web/wwwroot/uploads/
+/QuikPic.Web/QuikPic.db-shm
+/QuikPic.Web/QuikPic.db-wal

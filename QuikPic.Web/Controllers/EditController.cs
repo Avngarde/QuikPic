@@ -7,16 +7,20 @@ namespace QuikPic.Web.Controllers
     public class EditController : Controller
     {
         private readonly IWebHostEnvironment _env;
+        private readonly QuikPicContext _qpDbContext;
 
-        public EditController(IWebHostEnvironment env)
+        public EditController(IWebHostEnvironment env, QuikPicContext quikPicContext)
         {
             _env = env;
+            _qpDbContext = quikPicContext;
         }
 
         public IActionResult Index(string fileGuid)
         {
-            ViewData["fileGuid"] = fileGuid;
+            var presets = _qpDbContext.Presets.ToList();
 
+            ViewData["fileGuid"] = fileGuid;
+            ViewData["presets"] = presets;
             return View();
         }
 
