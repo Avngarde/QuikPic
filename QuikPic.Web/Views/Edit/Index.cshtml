@@ -80,7 +80,7 @@
                 </button>
                 @foreach(var preset in presets)
                 {
-                    <button class="preset">
+                    <button class="preset" onclick="applyPreset(@preset.Id)">
                         @preset.Name
                     </button>
                 }
@@ -170,6 +170,17 @@
         document.getElementById('photoUpload').src = `${url}?t=${new Date().getTime()}`;
     });
 
+    connection.on("PresetUpdateLabels", (editData) => {
+        document.getElementById('Brightness').value = editData.brightness;
+        document.getElementById('Contrast').value = editData.contrast;
+        document.getElementById('Saturation').value = editData.saturation;
+        document.getElementById('Grayscale').value = editData.grayscale
+        document.getElementById('Temperature').value = editData.temperature;
+        document.getElementById('Tint').value = editData.tint;
+        document.getElementById('Vignette').value = editData.vignette;
+        document.getElementById('Grain').value = editData.grain;
+    });
+
     connection.on("ImageError", (message) => {
         console.log("Processing error: " + message);
     });
@@ -207,6 +218,10 @@
         await connection.invoke("ApplyFiltersToImage", request, filePath);
     }
 
+    async function applyPreset(presetId) {
+        await connection.invoke("ApplyPresetById", presetId, filePath);
+    }
+
     // Add change listeners
     Object.values(sliders).forEach(slider => {
         slider.addEventListener('change', () => {
@@ -225,7 +240,6 @@
     });
 
     startSignalRConnection();
-    updateFilter();
 </script>
 
 <script>

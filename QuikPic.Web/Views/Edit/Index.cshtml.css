@@ -170,7 +170,7 @@
     transition: 0.3s;
 }
 
-.addNewPreset:hover {
+.preset:hover {
   box-shadow:  -5px 5px 0px #94a1a9,
                 5px -5px 0px #ffffff;
   cursor: pointer;
