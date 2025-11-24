@@ -1,21 +1,21 @@
 using Microsoft.AspNetCore.Mvc;
 using QuikPic.Web.Models;
+using QuikPic.Web.Services;
 
 namespace QuikPic.Web.Controllers
 {
     public class PresetController : Controller
     {
-        private QuikPicContext qpDbContext;
+        private readonly IPresetService _presetService;
 
-        public PresetController(QuikPicContext quikPicContext)
+        public PresetController(IPresetService presetService)
         {
-            qpDbContext = quikPicContext;
+            _presetService = presetService;
         }
 
         public ActionResult AddPreset([FromForm] Preset preset, string fileName)
         {
-            qpDbContext.Add(preset);
-            qpDbContext.SaveChanges();
+            _presetService.Add(preset);
 
             var fileGuid = fileName.Replace("/uploads/", "");
             return RedirectToAction("Index", "Edit", new { fileGuid });

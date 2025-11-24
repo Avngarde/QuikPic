@@ -4,6 +4,7 @@ using QuikPic.Web.Hubs;
 using Microsoft.EntityFrameworkCore.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
+using QuikPic.Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,7 @@ CultureInfo.DefaultThreadCurrentUICulture = culture;
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddSignalR();
+builder.Services.AddScoped<IPresetService, PresetService>();
 
 builder.Services.AddDbContext<QuikPicContext>(options =>
     options.UseSqlite(

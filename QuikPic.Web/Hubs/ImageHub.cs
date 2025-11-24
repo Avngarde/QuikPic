@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using Microsoft.AspNetCore.SignalR;
 using QuikPic.Web.Models;
+using QuikPic.Web.Services;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 
@@ -10,12 +11,12 @@ namespace QuikPic.Web.Hubs;
 public class ImageHub : Hub
 {
     private readonly IWebHostEnvironment _env;
-    private readonly QuikPicContext _qpDbContext;
+    private readonly IPresetService _presetService;
 
-    public ImageHub(IWebHostEnvironment env, QuikPicContext quikPicContext) 
+    public ImageHub(IWebHostEnvironment env, IPresetService presetService) 
     {
         _env = env;
-        _qpDbContext = quikPicContext;
+        _presetService = presetService;
     }
 
     private string CreatePreviewFile(Image<Rgba32> image, string fileName)
@@ -67,7 +68,7 @@ public class ImageHub : Hub
     {
         try
         {
-            Preset? preset = _qpDbContext.Presets.Where(p => p.Id == presetId).FirstOrDefault();
+            Preset? preset = _presetService.GetById(presetId);
             if (preset == null) throw new Exception();
 
             EditData editData = new()
