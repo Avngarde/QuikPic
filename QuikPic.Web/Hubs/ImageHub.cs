@@ -51,8 +51,8 @@ public class ImageHub : Hub
         try
         {
             var fileNameTrimmed = TrimFileName(fileName);
-            var image = LoadImageFromFileName(fileNameTrimmed);
-            var editedImage = ApplyFiltersToImage(editData, image);
+            using var image = LoadImageFromFileName(fileNameTrimmed);
+            using var editedImage = ApplyFiltersToImage(editData, image);
 
             var previewFileName = CreatePreviewFile(editedImage, fileNameTrimmed);
             await Clients.Caller.SendAsync("ImageUpdated", previewFileName);
@@ -83,8 +83,8 @@ public class ImageHub : Hub
             };
 
             var fileNameTrimmed = TrimFileName(fileName);
-            var image = LoadImageFromFileName(fileNameTrimmed);
-            var editedImage = ApplyFiltersToImage(editData, image);
+            using var image = LoadImageFromFileName(fileNameTrimmed);
+            using var editedImage = ApplyFiltersToImage(editData, image);
 
             var previewFileName = CreatePreviewFile(editedImage, fileNameTrimmed);
 
