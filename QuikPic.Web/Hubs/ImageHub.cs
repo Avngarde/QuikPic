@@ -2,6 +2,8 @@ using System;
 using System.Diagnostics;
 using Microsoft.AspNetCore.SignalR;
 using QuikPic.Web.Models;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
 
 namespace QuikPic.Web.Hubs;
 
@@ -16,22 +18,43 @@ public class ImageHub : Hub
         _qpDbContext = quikPicContext;
     }
 
-    public async Task ApplyFiltersToImage(EditData editData, string fileName)
+    private string CreatePreviewFile(Image<Rgba32> image, string fileName)
+    {
+        string previewFileName = fileName.Replace(".", "_temp.");
+        string previewFilePath = Path.Combine(_env.WebRootPath, previewFileName); 
+        ImageHandler.SaveImageToPath(image, previewFilePath); 
+
+        return previewFileName;      
+    }
+
+    private Image<Rgba32> ApplyFiltersToImage(EditData editData, Image<Rgba32> image)
+    {
+        ImageProcessor processor = new(image);
+        processor.ProcessImage(editData);
+
+        return processor.GetImageRgba32();
+    }
+
+    private Image<Rgba32> LoadImageFromFileName(string fileName)
+    {
+        var path = Path.Combine(_env.WebRootPath, fileName); 
+        var image = ImageHandler.LoadImageFromPath(path); 
+
+        return image;      
+    }
+
+    private string TrimFileName(string fileName) => 
+        fileName.TrimStart(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+
+    public async Task ApplyFilters(EditData editData, string fileName)
     {
         try
         {
-            string fileNameTrimmed = fileName.TrimStart(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-            var path = Path.Combine(_env.WebRootPath, fileNameTrimmed); 
-            var image = ImageHandler.LoadImageFromPath(path);
+            var fileNameTrimmed = TrimFileName(fileName);
+            var image = LoadImageFromFileName(fileNameTrimmed);
+            var editedImage = ApplyFiltersToImage(editData, image);
 
-            ImageProcessor processor = new(image);
-            processor.ProcessImage(editData);
-
-            string previewFileName = fileNameTrimmed.Replace(".", "_temp.");
-            string previewFilePath = Path.Combine(_env.WebRootPath, previewFileName); 
-            var editedImage = processor.GetImageRgba32();
-            ImageHandler.SaveImageToPath(editedImage, previewFilePath);
-
+            var previewFileName = CreatePreviewFile(editedImage, fileNameTrimmed);
             await Clients.Caller.SendAsync("ImageUpdated", previewFileName);
         }
         catch (Exception ex)
@@ -59,17 +82,11 @@ public class ImageHub : Hub
                 Vignette = preset.Vignette
             };
 
-            string fileNameTrimmed = fileName.TrimStart(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-            var path = Path.Combine(_env.WebRootPath, fileNameTrimmed); 
-            var image = ImageHandler.LoadImageFromPath(path);
+            var fileNameTrimmed = TrimFileName(fileName);
+            var image = LoadImageFromFileName(fileNameTrimmed);
+            var editedImage = ApplyFiltersToImage(editData, image);
 
-            ImageProcessor processor = new(image);
-            processor.ProcessImage(editData);
-
-            string previewFileName = fileNameTrimmed.Replace(".", "_temp.");
-            string previewFilePath = Path.Combine(_env.WebRootPath, previewFileName); 
-            var editedImage = processor.GetImageRgba32();
-            ImageHandler.SaveImageToPath(editedImage, previewFilePath);
+            var previewFileName = CreatePreviewFile(editedImage, fileNameTrimmed);
 
             await Clients.Caller.SendAsync("ImageUpdated", previewFileName);
             await Clients.Caller.SendAsync("PresetUpdateLabels", editData);

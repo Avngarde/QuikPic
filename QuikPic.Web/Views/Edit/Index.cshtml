@@ -233,7 +233,7 @@
             Grain: parseFloat(sliders.grain.value)
         };
 
-        await connection.invoke("ApplyFiltersToImage", request, filePath);
+        await connection.invoke("ApplyFilters", request, filePath);
     }
 
     async function applyPreset(presetId) {
