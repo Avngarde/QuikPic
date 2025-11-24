@@ -22,42 +22,42 @@
                     <div class="slidersPresetsHolder">
                         <div class="sliderPresetHolder">
                             <label id="brightnessPresetLabel">Brightness: 1.0</label>
-                            <input type="range" min="0" max="2" value="1" step="0.01" name="Brightness" id="BrightnessPreset" disabled />
+                            <input type="range" min="0" max="2" value="1" step="0.01" name="Brightness" id="BrightnessPreset" readonly />
                         </div>
 
                         <div class="sliderPresetHolder">
                             <label id="contrastPresetLabel">Contrast: 1.0</label>
-                            <input type="range" min="0" max="2" value="1" step="0.01" name="Contrast" id="ContrastPreset" disabled />
+                            <input type="range" min="0" max="2" value="1" step="0.01" name="Contrast" id="ContrastPreset" readonly />
                         </div>
 
                         <div class="sliderPresetHolder">
                             <label id="saturationPresetLabel">Saturation: 1.0</label>
-                            <input type="range" min="0" max="2" value="1" step="0.01" name="Saturation" id="SaturationPreset" disabled />
+                            <input type="range" min="0" max="2" value="1" step="0.01" name="Saturation" id="SaturationPreset" readonly />
                         </div>
 
                         <div class="sliderPresetHolder">
                             <label id="grayscalePresetLabel">Grayscale: 0.0</label>
-                            <input type="range" min="0" max="1" value="0" step="0.01" name="Grayscale" id="GrayscalePreset" disabled />
+                            <input type="range" min="0" max="1" value="0" step="0.01" name="Grayscale" id="GrayscalePreset" readonly />
                         </div>
 
                         <div class="sliderPresetHolder">
                             <label id="temperaturePresetLabel">Temperature: 0.0</label>
-                            <input type="range" min="-1" max="1" value="0" step="0.01" name="Temperature" id="TemperaturePreset" disabled />
+                            <input type="range" min="-1" max="1" value="0" step="0.01" name="Temperature" id="TemperaturePreset" readonly />
                         </div>
 
                         <div class="sliderPresetHolder">
                             <label id="tintPresetLabel">Tint: 0.0</label>
-                            <input type="range" min="-1" max="1" value="0" step="0.01" name="Tint" id="TintPreset" disabled />
+                            <input type="range" min="-1" max="1" value="0" step="0.01" name="Tint" id="TintPreset" readonly />
                         </div>
 
                         <div class="sliderPresetHolder">
                             <label id="grainPresetLabel">Grain: 0.0</label>
-                            <input type="range" min="0" max="3" value="0" step="0.01" name="Grain" id="GrainPreset" disabled />
+                            <input type="range" min="0" max="3" value="0" step="0.01" name="Grain" id="GrainPreset" readonly />
                         </div>
 
                         <div class="sliderPresetHolder">
                             <label id="vignettePresetLabel">Vignette: 0.0</label>
-                            <input type="range" min="0" max="2" value="0" step="0.01" name="Vignette" id="VignettePreset" disabled />
+                            <input type="range" min="0" max="2" value="0" step="0.01" name="Vignette" id="VignettePreset" readonly />
                         </div>
                     </div>
                     <input type="text" readonly id="fileName" name="fileName" value="@filePath" hidden />
@@ -201,6 +201,26 @@
         }       
     }
 
+    function updatePresetLabels() {
+        for (const [key, slider] of Object.entries(sliders)) {
+            const label = document.getElementById(`${key}PresetLabel`);
+            if (label) 
+                label.innerText = `${key.charAt(0).toUpperCase() + key.slice(1)}: ${slider.value}`;
+        }       
+    }
+
+    function updatePresetValues () 
+    {
+        document.getElementById('BrightnessPreset').value = document.getElementById('Brightness').value;
+        document.getElementById('ContrastPreset').value = document.getElementById('Contrast').value;
+        document.getElementById('SaturationPreset').value = document.getElementById('Saturation').value;
+        document.getElementById('GrayscalePreset').value = document.getElementById('Grayscale').value;
+        document.getElementById('TemperaturePreset').value = document.getElementById('Temperature').value;
+        document.getElementById('TintPreset').value = document.getElementById('Tint').value;
+        document.getElementById('VignettePreset').value = document.getElementById('Vignette').value;
+        document.getElementById('GrainPreset').value = document.getElementById('Grain').value;
+    }
+
     async function updateFilter() {
         const request = {
             Brightness: parseFloat(sliders.brightness.value),
@@ -213,8 +233,6 @@
             Grain: parseFloat(sliders.grain.value)
         };
 
-        updateLabels();
-
         await connection.invoke("ApplyFiltersToImage", request, filePath);
     }
 
@@ -225,6 +243,8 @@
     // Add change listeners
     Object.values(sliders).forEach(slider => {
         slider.addEventListener('change', () => {
+            updatePresetValues();
+            updatePresetLabels();
             updateFilter();
         });
     });
