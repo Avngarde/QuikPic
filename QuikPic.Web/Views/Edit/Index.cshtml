@@ -238,6 +238,7 @@
 
     async function applyPreset(presetId) {
         await connection.invoke("ApplyPresetById", presetId, filePath);
+        closePresetMenu();
     }
 
     // Add change listeners
