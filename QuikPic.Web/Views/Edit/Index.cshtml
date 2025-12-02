@@ -84,7 +84,7 @@
                         <span>@preset.Name</span>
                         <span class="presetActionButtons">
                             <span>Update</span>
-                            <span>Delete</span>
+                            <span onclick="location.href='@Url.Action("DeletePreset", "Preset", new { id = preset.Id, fileName = @filePath })'">Delete</span>
                         </span>
                     </button>
                 }
