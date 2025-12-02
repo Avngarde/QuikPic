@@ -67,6 +67,72 @@
         </div>
     </div>
 
+    <div class="editPresetForm">
+        <div class="editPresetFormBackground">
+            <div class="editPresetFormHolder">
+                @using (Html.BeginForm("EditPreset", "Preset", FormMethod.Post, new
+                {
+                    @id = "uploadForm",
+                    style = "display: flex; flex-direction: column; justify-content: center; padding: 5%; gap: 2vh;"
+                }))
+                {
+                    <div style="display: flex; justify-content: space-between; margin: 0% 10% 0% 10%;">
+                        <h1>Edit preset</h1>
+                        <h1 class="closeEditPresetForm">x</h1>
+                    </div>
+
+                    <input type="text" name="Name" id="NamePresetEdit" class="presetNameInput" placeholder="Preset name" />
+                    <input type="number" name="Id" id="EditPresetId" readonly style="visibility: hidden;" />
+
+                    <div class="slidersPresetsHolder">
+                        <div class="sliderPresetHolder">
+                            <label id="brightnessEditPresetLabel">Brightness: 1.0</label>
+                            <input type="range" min="0" max="2" value="1" step="0.01" name="Brightness" id="BrightnessPresetEdit" />
+                        </div>
+
+                        <div class="sliderPresetHolder">
+                            <label id="contrastEditPresetLabel">Contrast: 1.0</label>
+                            <input type="range" min="0" max="2" value="1" step="0.01" name="Contrast" id="ContrastPresetEdit" />
+                        </div>
+
+                        <div class="sliderPresetHolder">
+                            <label id="saturationEditPresetLabel">Saturation: 1.0</label>
+                            <input type="range" min="0" max="2" value="1" step="0.01" name="Saturation" id="SaturationPresetEdit" />
+                        </div>
+
+                        <div class="sliderPresetHolder">
+                            <label id="grayscaleEditPresetLabel">Grayscale: 0.0</label>
+                            <input type="range" min="0" max="1" value="0" step="0.01" name="Grayscale" id="GrayscalePresetEdit" />
+                        </div>
+
+                        <div class="sliderPresetHolder">
+                            <label id="temperatureEditPresetLabel">Temperature: 0.0</label>
+                            <input type="range" min="-1" max="1" value="0" step="0.01" name="Temperature" id="TemperaturePresetEdit" />
+                        </div>
+
+                        <div class="sliderPresetHolder">
+                            <label id="tintEditPresetLabel">Tint: 0.0</label>
+                            <input type="range" min="-1" max="1" value="0" step="0.01" name="Tint" id="TintPresetEdit" />
+                        </div>
+
+                        <div class="sliderPresetHolder">
+                            <label id="grainEditPresetLabel">Grain: 0.0</label>
+                            <input type="range" min="0" max="3" value="0" step="0.01" name="Grain" id="GrainPresetEdit" />
+                        </div>
+
+                        <div class="sliderPresetHolder">
+                            <label id="vignetteEditPresetLabel">Vignette: 0.0</label>
+                            <input type="range" min="0" max="2" value="0" step="0.01" name="Vignette" id="VignettePresetEdit" />
+                        </div>
+                    </div>
+
+                    <input type="text" readonly id="fileName" name="fileName" value="@filePath" hidden />
+                    <input type="submit" class="slidersEditButton" value="Edit preset" />
+                }
+            </div>
+        </div>
+    </div>
+
     <div class="presetsHolder">
         <button class="presetButton">Presets</button>
 
@@ -83,7 +149,7 @@
                     <button class="preset" onclick="applyPreset(@preset.Id)">
                         <span>@preset.Name</span>
                         <span class="presetActionButtons">
-                            <span>Update</span>
+                            <span onclick="openEditPresetForm(@preset.Id, '@preset.Name', @preset.Brightness, @preset.Contrast, @preset.Saturation, @preset.Grayscale, @preset.Temperature, @preset.Tint, @preset.Grain, @preset.Vignette)">Update</span>
                             <span onclick="location.href='@Url.Action("DeletePreset", "Preset", new { id = preset.Id, fileName = @filePath })'">Delete</span>
                         </span>
                     </button>
@@ -318,4 +384,85 @@
         setPresetSliders();
         openAddPresetForm();
     });
+</script>
+
+<script>
+    function closeEditPresetForm() {
+        document.getElementsByClassName("editPresetForm")[0].style = "visibility: collapse;";
+    }
+
+    function setEditPresetSliders(brightness, contrast, saturation, grayscale, temperature, tint, grain, vignette) {
+        for (const [key, slider] of Object.entries(sliders)) {
+            let sliderNameCapitalised = String(slider.name).charAt(0).toUpperCase() + String(slider.name).slice(1);
+
+            switch (sliderNameCapitalised) {
+                case "Brightness":
+                    document.getElementById("brightnessEditPresetLabel").innerText = `${sliderNameCapitalised}: ${brightness}`;
+                    document.getElementById("BrightnessPresetEdit").value = slider.value;
+                    break;
+
+                case "Contrast":
+                    document.getElementById("contrastEditPresetLabel").innerText = `${sliderNameCapitalised}: ${contrast}`;
+                    document.getElementById("ContrastPresetEdit").value = slider.value;
+                    break;
+
+                case "Saturation":
+                    document.getElementById("saturationEditPresetLabel").innerText = `${sliderNameCapitalised}: ${saturation}`;
+                    document.getElementById("SaturationPresetEdit").value = slider.value;
+                    break;
+
+                case "Grayscale":
+                    document.getElementById("grayscaleEditPresetLabel").innerText = `${sliderNameCapitalised}: ${grayscale}`;
+                    document.getElementById("GrayscalePresetEdit").value = slider.value;
+                    break;
+
+                case "Temperature":
+                    document.getElementById("temperatureEditPresetLabel").innerText = `${sliderNameCapitalised}: ${temperature}`;
+                    document.getElementById("TemperaturePresetEdit").value = slider.value;
+                    break;
+
+                case "Tint":
+                    document.getElementById("tintEditPresetLabel").innerText = `${sliderNameCapitalised}: ${tint}`;
+                    document.getElementById("TintPresetEdit").value = slider.value;
+                    break;
+
+                case "Grain":
+                    document.getElementById("grainEditPresetLabel").innerText = `${sliderNameCapitalised}: ${grain}`;
+                    document.getElementById("GrainPresetEdit").value = slider.value;
+                    break;
+
+                case "Vignette":
+                    document.getElementById("vignetteEditPresetLabel").innerText = `${sliderNameCapitalised}: ${vignette}`;
+                    document.getElementById("VignettePresetEdit").value = slider.value;
+                    break;
+            }
+        }
+    }
+
+    function showEditPresetForm() {
+        document.getElementsByClassName("editPresetForm")[0].style = "visibility: visible;";
+    }
+
+    function setEditedPresetId(presetId) {
+        document.getElementById("EditPresetId").value = presetId;
+        document.getElementById("EditPresetId").innerText = presetId;
+    }
+
+    function setEditedPresetName(presetName) {
+        document.getElementById("NamePresetEdit").value = presetName;
+        document.getElementById("NamePresetEdit").innerText = presetName;
+    }
+
+    document.getElementsByClassName("closeEditPresetForm")[0].addEventListener('click', (e) => {
+        closeEditPresetForm();
+    });
+
+    function openEditPresetForm(presetId, presetName, brightness, contrast, saturation, grayscale, temperature, tint, grain, vignette) {
+        closePresetMenu();
+        setEditedPresetId(presetId);
+        setEditedPresetName(presetName);
+        setEditPresetSliders(brightness, contrast, saturation, grayscale, temperature, tint, grain, vignette);
+        showEditPresetForm();
+    }
+
 </script>
