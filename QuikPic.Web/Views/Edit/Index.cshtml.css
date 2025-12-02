@@ -168,13 +168,34 @@
     background-color: #cddfeb;
     box-shadow: -5px 5px 0px #b4c4cf, 5px -5px 0px #e6faff;
     transition: 0.3s;
+    display: flex;
+    justify-content: space-between;
+    align-items: center
+}
+
+.presetActionButtons {
+    display: flex;
+    align-items: center;
+    gap: 10%;
+    margin-right: 10%;
+}
+
+.presetActionButtons span:nth-child(1) {
+    background-color: lightblue;
+    padding: 10%;
+    border-radius: 10px;
+}
+
+.presetActionButtons span:nth-child(2) {
+    background-color: indianred;
+    padding: 10%;
+    border-radius: 10px;
 }
 
 .preset:hover {
-  box-shadow:  -5px 5px 0px #94a1a9,
-                5px -5px 0px #ffffff;
-  cursor: pointer;
-  transition: 0.3s;
+    box-shadow: -5px 5px 0px #94a1a9, 5px -5px 0px #ffffff;
+    cursor: pointer;
+    transition: 0.3s;
 }
 
 .presetsList {

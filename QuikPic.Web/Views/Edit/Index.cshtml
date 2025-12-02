@@ -81,7 +81,11 @@
                 @foreach(var preset in presets)
                 {
                     <button class="preset" onclick="applyPreset(@preset.Id)">
-                        @preset.Name
+                        <span>@preset.Name</span>
+                        <span class="presetActionButtons">
+                            <span>Update</span>
+                            <span>Delete</span>
+                        </span>
                     </button>
                 }
 
