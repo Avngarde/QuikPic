@@ -1,6 +1,8 @@
 ﻿@{
-    var filePath = "/uploads/" + ViewData["fileGuid"];
+    var fileGuid = ViewData["fileGuid"];
+    var filePath = "/uploads/" + fileGuid;
     List<Preset> presets = ViewData["presets"] != null ? (List<Preset>)ViewData["presets"] : new List<Preset>();
+    Preset? selectedPreset = ViewData["selectedPreset"] != null ? (Preset)ViewData["selectedPreset"] : null;
 }
 
 <div class="container">
@@ -146,10 +148,9 @@
                 </button>
                 @foreach(var preset in presets)
                 {
-                    <button class="preset" onclick="applyPreset(@preset.Id)">
+                    <button class="preset" onclick="location.href='@Url.Action("Index", "Edit", new { fileGuid = @fileGuid, presetId = preset.Id })'">
                         <span>@preset.Name</span>
                         <span class="presetActionButtons">
-                            <span onclick="openEditPresetForm(@preset.Id, '@preset.Name', @preset.Brightness, @preset.Contrast, @preset.Saturation, @preset.Grayscale, @preset.Temperature, @preset.Tint, @preset.Grain, @preset.Vignette)">Update</span>
                             <span onclick="location.href='@Url.Action("DeletePreset", "Preset", new { id = preset.Id, fileName = @filePath })'">Delete</span>
                         </span>
                     </button>
@@ -220,6 +221,7 @@
 <script>
     const photo = document.getElementById('photoUpload');
     const filePath = "@filePath";
+    const selectedPresetId = @Html.Raw(Json.Serialize(selectedPreset?.Id));
 
     const sliders = {
         brightness: document.getElementById('Brightness'),
@@ -237,7 +239,7 @@
         .build();
 
     connection.on("ImageUpdated", (url) => {
-        document.getElementById('photoUpload').src = `${url}?t=${new Date().getTime()}`;
+        document.getElementById('photoUpload').src = `/${url}?t=${new Date().getTime()}`;
     });
 
     connection.on("PresetUpdateLabels", (editData) => {
@@ -249,6 +251,8 @@
         document.getElementById('Tint').value = editData.tint;
         document.getElementById('Vignette').value = editData.vignette;
         document.getElementById('Grain').value = editData.grain;
+
+        updateLabels();
     });
 
     connection.on("ImageError", (message) => {
@@ -330,7 +334,11 @@
         console.log(sliders);
     });
 
-    startSignalRConnection();
+    startSignalRConnection().then(() => {
+        if (selectedPresetId != null) {
+            applyPreset(selectedPresetId);
+        }
+    });
 </script>
 
 <script>

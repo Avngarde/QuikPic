@@ -1,6 +1,7 @@
 ﻿using System.Net.Mime;
 using Microsoft.AspNetCore.Mvc;
 using System.IO;
+using QuikPic.Web.Models;
 
 namespace QuikPic.Web.Controllers
 {
@@ -15,12 +16,21 @@ namespace QuikPic.Web.Controllers
             _qpDbContext = quikPicContext;
         }
 
-        public IActionResult Index(string fileGuid)
+        [Route("[controller]/[action]/{fileGuid}/{presetId?}")]
+        public IActionResult Index(string fileGuid, int? presetId)
         {
             var presets = _qpDbContext.Presets.ToList();
+            Preset? selectedPreset;
+            if (presetId is not null)
+            {
+                selectedPreset = presets.Where(p => p.Id == presetId).FirstOrDefault();
+                if (selectedPreset is not null) 
+                    ViewData["selectedPreset"] = selectedPreset;
+            }
 
             ViewData["fileGuid"] = fileGuid;
             ViewData["presets"] = presets;
+
             return View();
         }
 
