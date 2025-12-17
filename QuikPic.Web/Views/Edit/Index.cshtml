@@ -161,6 +161,10 @@
     </div>
     <div class="photoContainer">
         <img id="photoUpload" src="@filePath" />
+        @if (selectedPreset is not null)
+        {
+            <p id="selectedPresetName">Currently used preset: @selectedPreset.Name</p>
+        }
     </div>
 
     <div class="slidersContainer">
