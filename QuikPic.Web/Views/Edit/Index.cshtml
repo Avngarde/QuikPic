@@ -3,17 +3,23 @@
     var filePath = "/uploads/" + fileGuid;
     List<Preset> presets = ViewData["presets"] != null ? (List<Preset>)ViewData["presets"] : new List<Preset>();
     Preset? selectedPreset = ViewData["selectedPreset"] != null ? (Preset)ViewData["selectedPreset"] : null;
+    (string name, int min, int max, double value)[] sliders = [
+        ("Brightness", 0, 2, 1.0),
+        ("Contrast", 0, 2, 1.0),
+        ("Saturation", 0, 2, 1.0),
+        ("Grayscale", 0, 1, 0.0),
+        ("Temperature", -1, 1, 0.0),
+        ("Tint", -1, 1, 0.0),
+        ("Grain", 0, 3, 0.0),
+        ("Vignette", 0, 2, 0.0)
+    ];
 }
 
 <div class="container">
     <div class="addPresetForm">
         <div class="addPresetFormBackground">
             <div class="addPresetFormHolder">
-                @using (Html.BeginForm("AddPreset", "Preset", FormMethod.Post, new { 
-                    @id = "uploadForm", 
-                    style = "display: flex; flex-direction: column; justify-content: center; padding: 5%; gap: 2vh;" 
-                }))
-                {
+                <form asp-action="AddPreset" asp-controller="Preset" method="post" style="display: flex; flex-direction: column; justify-content: center; padding: 5%; gap: 2vh;">
                     <div style="display: flex; justify-content: space-between; margin: 0% 10% 0% 10%;">
                         <h1>Add preset</h1>
                         <h1 class="closeAddPresetForm">x</h1>
@@ -22,49 +28,19 @@
                     <input type="text" name="Name" id="Name" class="presetNameInput" placeholder="Preset name" />
 
                     <div class="slidersPresetsHolder">
-                        <div class="sliderPresetHolder">
-                            <label id="brightnessPresetLabel">Brightness: 1.0</label>
-                            <input type="range" min="0" max="2" value="1" step="0.01" name="Brightness" id="BrightnessPreset" readonly />
-                        </div>
-
-                        <div class="sliderPresetHolder">
-                            <label id="contrastPresetLabel">Contrast: 1.0</label>
-                            <input type="range" min="0" max="2" value="1" step="0.01" name="Contrast" id="ContrastPreset" readonly />
-                        </div>
-
-                        <div class="sliderPresetHolder">
-                            <label id="saturationPresetLabel">Saturation: 1.0</label>
-                            <input type="range" min="0" max="2" value="1" step="0.01" name="Saturation" id="SaturationPreset" readonly />
-                        </div>
-
-                        <div class="sliderPresetHolder">
-                            <label id="grayscalePresetLabel">Grayscale: 0.0</label>
-                            <input type="range" min="0" max="1" value="0" step="0.01" name="Grayscale" id="GrayscalePreset" readonly />
-                        </div>
-
-                        <div class="sliderPresetHolder">
-                            <label id="temperaturePresetLabel">Temperature: 0.0</label>
-                            <input type="range" min="-1" max="1" value="0" step="0.01" name="Temperature" id="TemperaturePreset" readonly />
-                        </div>
-
-                        <div class="sliderPresetHolder">
-                            <label id="tintPresetLabel">Tint: 0.0</label>
-                            <input type="range" min="-1" max="1" value="0" step="0.01" name="Tint" id="TintPreset" readonly />
-                        </div>
-
-                        <div class="sliderPresetHolder">
-                            <label id="grainPresetLabel">Grain: 0.0</label>
-                            <input type="range" min="0" max="3" value="0" step="0.01" name="Grain" id="GrainPreset" readonly />
-                        </div>
-
-                        <div class="sliderPresetHolder">
-                            <label id="vignettePresetLabel">Vignette: 0.0</label>
-                            <input type="range" min="0" max="2" value="0" step="0.01" name="Vignette" id="VignettePreset" readonly />
-                        </div>
+                        @foreach (var slider in sliders) 
+                        {
+                            <div class="sliderPresetHolder">
+                                <label id="@($"{slider.name.ToLower()}PresetLabel")">@slider.name: @slider.value</label>
+                                <input type="range" min="@slider.min" max="@slider.max" value="@slider.value" step="0.01" name="@slider.name"
+                                    id="@($"{slider.name}Preset")" readonly />
+                            </div>
+                        }
                     </div>
-                    <input type="text" readonly id="fileName" name="fileName" value="@filePath" hidden />
+
+                    <input type="hidden" id="fileName" name="fileName" value="@filePath" />
                     <input type="submit" class="slidersFormButton" value="Add preset" />
-                }            
+                </form>
             </div>
         </div>
     </div>
@@ -72,12 +48,7 @@
     <div class="editPresetForm">
         <div class="editPresetFormBackground">
             <div class="editPresetFormHolder">
-                @using (Html.BeginForm("EditPreset", "Preset", FormMethod.Post, new
-                {
-                    @id = "uploadForm",
-                    style = "display: flex; flex-direction: column; justify-content: center; padding: 5%; gap: 2vh;"
-                }))
-                {
+                <form asp-action="EditPreset" asp-controller="Preset" method="post" style="display: flex; flex-direction: column; justify-content: center; padding: 5%; gap: 2vh;">
                     <div style="display: flex; justify-content: space-between; margin: 0% 10% 0% 10%;">
                         <h1>Edit preset</h1>
                         <h1 class="closeEditPresetForm">x</h1>
@@ -87,50 +58,18 @@
                     <input type="number" name="Id" id="EditPresetId" readonly style="visibility: hidden;" />
 
                     <div class="slidersPresetsHolder">
-                        <div class="sliderPresetHolder">
-                            <label id="brightnessEditPresetLabel">Brightness: 1.0</label>
-                            <input type="range" min="0" max="2" value="1" step="0.01" name="Brightness" id="BrightnessPresetEdit" />
-                        </div>
-
-                        <div class="sliderPresetHolder">
-                            <label id="contrastEditPresetLabel">Contrast: 1.0</label>
-                            <input type="range" min="0" max="2" value="1" step="0.01" name="Contrast" id="ContrastPresetEdit" />
-                        </div>
-
-                        <div class="sliderPresetHolder">
-                            <label id="saturationEditPresetLabel">Saturation: 1.0</label>
-                            <input type="range" min="0" max="2" value="1" step="0.01" name="Saturation" id="SaturationPresetEdit" />
-                        </div>
-
-                        <div class="sliderPresetHolder">
-                            <label id="grayscaleEditPresetLabel">Grayscale: 0.0</label>
-                            <input type="range" min="0" max="1" value="0" step="0.01" name="Grayscale" id="GrayscalePresetEdit" />
-                        </div>
-
-                        <div class="sliderPresetHolder">
-                            <label id="temperatureEditPresetLabel">Temperature: 0.0</label>
-                            <input type="range" min="-1" max="1" value="0" step="0.01" name="Temperature" id="TemperaturePresetEdit" />
-                        </div>
-
-                        <div class="sliderPresetHolder">
-                            <label id="tintEditPresetLabel">Tint: 0.0</label>
-                            <input type="range" min="-1" max="1" value="0" step="0.01" name="Tint" id="TintPresetEdit" />
-                        </div>
-
-                        <div class="sliderPresetHolder">
-                            <label id="grainEditPresetLabel">Grain: 0.0</label>
-                            <input type="range" min="0" max="3" value="0" step="0.01" name="Grain" id="GrainPresetEdit" />
-                        </div>
-
-                        <div class="sliderPresetHolder">
-                            <label id="vignetteEditPresetLabel">Vignette: 0.0</label>
-                            <input type="range" min="0" max="2" value="0" step="0.01" name="Vignette" id="VignettePresetEdit" />
-                        </div>
+                        @foreach(var slider in sliders) 
+                        {
+                            <div class="sliderPresetHolder">
+                                <label id="@($"{slider.name}EditPresetLabel")">@slider.name: @slider.value</label>
+                                <input type="range" min="@slider.min" max="@slider.max" value="@slider.value" step="0.01" name="@slider.name" id="@($"{slider.name}PresetEdit")" />
+                            </div>
+                        }
                     </div>
 
                     <input type="text" readonly id="fileName" name="fileName" value="@filePath" hidden />
                     <input type="submit" class="slidersFormButton" value="Edit preset" />
-                }
+                </form>
             </div>
         </div>
     </div>
@@ -146,12 +85,14 @@
                 <button class="preset" id="addNewPreset">
                     + Add new preset
                 </button>
-                @foreach(var preset in presets)
+                @foreach (var preset in presets)
                 {
-                    <button class="preset" onclick="location.href='@Url.Action("Index", "Edit", new { fileGuid = @fileGuid, presetId = preset.Id })'">
+                    <button class="preset"
+                        onclick="location.href='@Url.Action("Index", "Edit", new { fileGuid = @fileGuid, presetId = preset.Id })'">
                         <span>@preset.Name</span>
                         <span class="presetActionButtons">
-                            <span onclick="location.href='@Url.Action("DeletePreset", "Preset", new { id = preset.Id, fileName = @filePath })'">Delete</span>
+                            <span
+                                onclick="location.href='@Url.Action("DeletePreset", "Preset", new { id = preset.Id, fileName = @filePath })'">Delete</span>
                         </span>
                     </button>
                 }
@@ -168,57 +109,20 @@
     </div>
 
     <div class="slidersContainer">
-        @using (Html.BeginForm("EditPhoto", "Edit", FormMethod.Post, new { 
-            @id = "uploadForm", 
-            style = "width: 100%; display: flex; justify-content: center; align-items: center;" 
-        }))
-        {
+        <form asp-action="EditPhoto" asp-controller="Edit" method="post" style="width: 100%; display: flex; justify-content: center; align-items: center;" id="uploadForm">
             <div class="slidersHolder">
-
-                <div class="sliderHolder">
-                    <label id="brightnessLabel">Brightness: 1.0</label>
-                    <input type="range" min="0" max="2" value="1" step="0.01" name="Brightness" id="Brightness" />
-                </div>
-
-                <div class="sliderHolder">
-                    <label id="contrastLabel">Contrast: 1.0</label>
-                    <input type="range" min="0" max="2" value="1" step="0.01" name="Contrast" id="Contrast" />
-                </div>
-
-                <div class="sliderHolder">
-                    <label id="saturationLabel">Saturation: 1.0</label>
-                    <input type="range" min="0" max="2" value="1" step="0.01" name="Saturation" id="Saturation" />
-                </div>
-
-                <div class="sliderHolder">
-                    <label id="grayscaleLabel">Grayscale: 0.0</label>
-                    <input type="range" min="0" max="1" value="0" step="0.01" name="Grayscale" id="Grayscale" />
-                </div>
-
-                <div class="sliderHolder">
-                    <label id="temperatureLabel">Temperature: 0.0</label>
-                    <input type="range" min="-1" max="1" value="0" step="0.01" name="Temperature" id="Temperature" />
-                </div>
-
-                <div class="sliderHolder">
-                    <label id="tintLabel">Tint: 0.0</label>
-                    <input type="range" min="-1" max="1" value="0" step="0.01" name="Tint" id="Tint" />
-                </div>
-
-                <div class="sliderHolder">
-                    <label id="grainLabel">Grain: 0.0</label>
-                    <input type="range" min="0" max="3" value="0" step="0.01" name="Grain" id="Grain" />
-                </div>
-
-                <div class="sliderHolder">
-                    <label id="vignetteLabel">Vignette: 0.0</label>
-                    <input type="range" min="0" max="2" value="0" step="0.01" name="Vignette" id="Vignette" />
-                </div>
+                @foreach(var slider in sliders)
+                {
+                    <div class="sliderHolder">
+                        <label id="@($"{slider.name.ToLower()}Label")">@slider.name: @slider.value</label>
+                        <input type="range" min="@slider.min" max="@slider.max" value="@slider.value" step="0.01" name="@slider.name" id="@slider.name" />
+                    </div>
+                }
 
                 <input type="text" readonly id="fileName" name="fileName" value="@filePath" hidden />
                 <input type="submit" class="downloadButton" value="Download">
             </div>
-        }
+        </form>
     </div>
 </div>
 
@@ -274,21 +178,20 @@
     function updateLabels() {
         for (const [key, slider] of Object.entries(sliders)) {
             const label = document.getElementById(`${key}Label`);
-            if (label) 
+            if (label)
                 label.innerText = `${key.charAt(0).toUpperCase() + key.slice(1)}: ${slider.value}`;
-        }       
+        }
     }
 
     function updatePresetLabels() {
         for (const [key, slider] of Object.entries(sliders)) {
             const label = document.getElementById(`${key}PresetLabel`);
-            if (label) 
+            if (label)
                 label.innerText = `${key.charAt(0).toUpperCase() + key.slice(1)}: ${slider.value}`;
-        }       
+        }
     }
 
-    function updatePresetValues () 
-    {
+    function updatePresetValues() {
         document.getElementById('BrightnessPreset').value = document.getElementById('Brightness').value;
         document.getElementById('ContrastPreset').value = document.getElementById('Contrast').value;
         document.getElementById('SaturationPreset').value = document.getElementById('Saturation').value;
@@ -374,16 +277,15 @@
         document.getElementsByClassName("addPresetForm")[0].style = "visibility: collapse;";
     }
 
-    function setPresetSliders()
-    {
+    function setPresetSliders() {
         for (const [key, slider] of Object.entries(sliders)) {
             let sliderNameCapitalised = String(slider.name).charAt(0).toUpperCase() + String(slider.name).slice(1);
             document.getElementById(`${key}PresetLabel`).innerText = `${sliderNameCapitalised}: ${slider.value}`;
             document.getElementById(`${sliderNameCapitalised}Preset`).value = slider.value;
-        }       
+        }
     }
 
-    function openAddPresetForm () {
+    function openAddPresetForm() {
         document.getElementsByClassName("addPresetForm")[0].style = "visibility: visible;";
     }
 
