@@ -16,13 +16,13 @@
 }
 
 <div class="container">
-    <div class="addPresetForm">
+    <div id="addPresetForm">
         <div class="addPresetFormBackground">
             <div class="addPresetFormHolder">
                 <form asp-action="AddPreset" asp-controller="Preset" method="post" style="display: flex; flex-direction: column; justify-content: center; padding: 5%; gap: 2vh;">
                     <div style="display: flex; justify-content: space-between; margin: 0% 10% 0% 10%;">
                         <h1>Add preset</h1>
-                        <h1 class="closeAddPresetForm">x</h1>
+                        <h1 id="closeAddPresetForm" onclick="toggleAddPresetForm(false)">x</h1>
                     </div>
 
                     <input type="text" name="Name" id="Name" class="presetNameInput" placeholder="Preset name" />
@@ -31,7 +31,7 @@
                         @foreach (var slider in sliders) 
                         {
                             <div class="sliderPresetHolder">
-                                <label id="@($"{slider.name.ToLower()}PresetLabel")">@slider.name: @slider.value</label>
+                                <label id="@($"{slider.name}PresetLabel")">@slider.name: @slider.value</label>
                                 <input type="range" min="@slider.min" max="@slider.max" value="@slider.value" step="0.01" name="@slider.name"
                                     id="@($"{slider.name}Preset")" readonly />
                             </div>
@@ -74,21 +74,20 @@
         </div>
     </div>
 
-    <div class="presetsHolder">
-        <button class="presetButton">Presets</button>
 
-        <div class="menuShadow"></div>
+    <div id="presetsHolder">
+        <button class="presetButton" onclick="togglePresetMenu(true)">Presets</button>
+        <div id="menuShadow"></div>
 
-        <div class="presetMenu">
-            <div class="presetMenuCloseButton">x</div>
+        <div id="presetMenu">
+            <div class="presetMenuCloseButton" onclick="togglePresetMenu(false)">x</div>
             <div class="presetsList">
-                <button class="preset" id="addNewPreset">
+                <button class="preset" id="addNewPreset" onclick="toggleAddPresetForm(true)">
                     + Add new preset
                 </button>
                 @foreach (var preset in presets)
                 {
-                    <button class="preset"
-                        onclick="location.href='@Url.Action("Index", "Edit", new { fileGuid = @fileGuid, presetId = preset.Id })'">
+                    <button class="preset" onclick="location.href='@Url.Action("Index", "Edit", new { fileGuid = @fileGuid, presetId = preset.Id })'">
                         <span>@preset.Name</span>
                         <span class="presetActionButtons">
                             <span
@@ -114,8 +113,9 @@
                 @foreach(var slider in sliders)
                 {
                     <div class="sliderHolder">
-                        <label id="@($"{slider.name.ToLower()}Label")">@slider.name: @slider.value</label>
-                        <input type="range" min="@slider.min" max="@slider.max" value="@slider.value" step="0.01" name="@slider.name" id="@slider.name" />
+                        <label id="@($"{slider.name}Label")">@slider.name: @slider.value</label>
+                        <input type="range" min="@slider.min" max="@slider.max" value="@slider.value" 
+                            step="0.01" name="@slider.name" id="@slider.name" oninput="updateImage()" />
                     </div>
                 }
 
@@ -130,43 +130,21 @@
     const photo = document.getElementById('photoUpload');
     const filePath = "@filePath";
     const selectedPreset = @Html.Raw(Json.Serialize(selectedPreset));
-    console.log(selectedPreset);
 
-    const sliders = {
-        brightness: document.getElementById('Brightness'),
-        contrast: document.getElementById('Contrast'),
-        saturation: document.getElementById('Saturation'),
-        grayscale: document.getElementById('Grayscale'),
-        temperature: document.getElementById('Temperature'),
-        tint: document.getElementById('Tint'),
-        vignette: document.getElementById('Vignette'),
-        grain: document.getElementById('Grain')
-    };
+    const sliderNames = [
+        'Brightness',
+        'Contrast',
+        'Saturation',
+        'Grayscale',
+        'Temperature',
+        'Tint',
+        'Vignette',
+        'Grain'
+    ];
 
     const connection = new signalR.HubConnectionBuilder()
         .withUrl('/ImageHub')
         .build();
-
-    connection.on("ImageUpdated", (url) => {
-        document.getElementById('photoUpload').src = `/${url}?t=${new Date().getTime()}`;
-    });
-
-    connection.on("PresetUpdateLabels", (editData) => {
-        document.getElementById('Brightness').value = editData.brightness;
-        document.getElementById('Contrast').value = editData.contrast;
-        document.getElementById('Saturation').value = editData.saturation;
-        document.getElementById('Grayscale').value = editData.grayscale
-        document.getElementById('Temperature').value = editData.temperature;
-        document.getElementById('Tint').value = editData.tint;
-        document.getElementById('Vignette').value = editData.vignette;
-        document.getElementById('Grain').value = editData.grain;
-
-        updateLabels();
-    });
-
-    connection.on("ImageError", (message) => {
-        console.log("Processing error: " + message);
-    });
 
     async function startSignalRConnection() {
         try {
@@ -175,209 +153,86 @@
             setTimeout(startSignalRConnection, 5000);
         }
     }
+    
+    connection.on("ImageUpdated", (url) => {
+        photo.src = `/${url}?t=${new Date().getTime()}`;
+    });
+
+    connection.on("ApplyPresetById", () => {
+        updateLabels();
+    });
+
+    connection.on("PresetUpdateLabels", (editData) => {
+        for (const slider of sliderNames) {
+            document.getElementById(slider).value = editData[slider.toLowerCase()];
+        }
+        
+        updateLabels();
+        updateAddPresetForm();
+    });
+
+    connection.on("ImageError", (message) => {
+        console.log("Processing error: " + message);
+    });
 
     function updateLabels() {
-        for (const [key, slider] of Object.entries(sliders)) {
-            const label = document.getElementById(`${key}Label`);
-            if (label)
-                label.innerText = `${key.charAt(0).toUpperCase() + key.slice(1)}: ${slider.value}`;
+        for (const slider of sliderNames) {
+            let value = document.getElementById(`${slider}`).value;
+            document.getElementById(`${slider}Label`).innerText = `${slider}: ${value}`;
         }
     }
 
-    function updatePresetLabels() {
-        for (const [key, slider] of Object.entries(sliders)) {
-            const label = document.getElementById(`${key}PresetLabel`);
-            if (label)
-                label.innerText = `${key.charAt(0).toUpperCase() + key.slice(1)}: ${slider.value}`;
-        }
+    function updateAddPresetForm() {
+        for (const slider of sliderNames) {
+            let sliderValue = document.getElementById(`${slider}`).value;
+            document.getElementById(`${slider}PresetLabel`).innerText = `${slider}: ${sliderValue}`;
+            document.getElementById(`${slider}Preset`).value = sliderValue;
+        }       
     }
 
-    function updatePresetValues() {
-        document.getElementById('BrightnessPreset').value = document.getElementById('Brightness').value;
-        document.getElementById('ContrastPreset').value = document.getElementById('Contrast').value;
-        document.getElementById('SaturationPreset').value = document.getElementById('Saturation').value;
-        document.getElementById('GrayscalePreset').value = document.getElementById('Grayscale').value;
-        document.getElementById('TemperaturePreset').value = document.getElementById('Temperature').value;
-        document.getElementById('TintPreset').value = document.getElementById('Tint').value;
-        document.getElementById('VignettePreset').value = document.getElementById('Vignette').value;
-        document.getElementById('GrainPreset').value = document.getElementById('Grain').value;
-    }
-
-    async function updateFilter() {
+    async function updateImage() {
         const request = {
-            Brightness: parseFloat(sliders.brightness.value),
-            Contrast: parseFloat(sliders.contrast.value),
-            Saturation: parseFloat(sliders.saturation.value),
-            Grayscale: parseFloat(sliders.grayscale.value),
-            Temperature: parseFloat(sliders.temperature.value),
-            Tint: parseFloat(sliders.tint.value),
-            Vignette: parseFloat(sliders.vignette.value),
-            Grain: parseFloat(sliders.grain.value)
+            Brightness: parseFloat(document.getElementById("Brightness").value),
+            Contrast: parseFloat(document.getElementById("Contrast").value),
+            Saturation: parseFloat(document.getElementById("Saturation").value),
+            Grayscale: parseFloat(document.getElementById("Grayscale").value),
+            Temperature: parseFloat(document.getElementById("Temperature").value),
+            Tint: parseFloat(document.getElementById("Tint").value),
+            Vignette: parseFloat(document.getElementById("Vignette").value),
+            Grain: parseFloat(document.getElementById("Grain").value)
         };
 
+        updateLabels();
+        updateAddPresetForm();
         await connection.invoke("ApplyFilters", request, filePath);
     }
 
-    async function applyPreset(presetId) {
-        await connection.invoke("ApplyPresetById", presetId, filePath);
-        closePresetMenu();
+    function togglePresetMenu(toggle) {
+        if (toggle) {
+            document.getElementById("menuShadow").style = "visibility: visible";
+            document.getElementById("presetMenu").style = "visibility: visible";
+        } else {
+            document.getElementById("menuShadow").style = "visibility: collapse";
+            document.getElementById("presetMenu").style = "visibility: collapse";
+        }
     }
 
-    // Add change listeners
-    Object.values(sliders).forEach(slider => {
-        slider.addEventListener('change', () => {
-            updatePresetValues();
-            updatePresetLabels();
-            updateFilter();
-        });
-    });
+    function toggleAddPresetForm(toggle) {
+        if (toggle) {
+            togglePresetMenu(false);
+            document.getElementById("addPresetForm").style = "visibility: visible;";
+        } else {
+            document.getElementById("addPresetForm").style = "visibility: collapse;";
+        }
+    }
 
-    Object.values(sliders).forEach(slider => {
-        slider.addEventListener('input', () => {
-            updateLabels();
-        });
-    });
+    async function applyPreset(preset) {
+        await connection.invoke("ApplyPresetById", preset, filePath);
+    }
 
-    document.getElementById('uploadForm').addEventListener('submit', (e) => {
-        console.log(sliders);
-    });
-
-    startSignalRConnection().then(() => {
+    startSignalRConnection().then(async () => {
         if (selectedPreset != null) {
-            applyPreset(selectedPreset);
+            await applyPreset(selectedPreset);
         }
     });
-</script>
-
-<script>
-    function openPresetMenu() {
-        document.getElementsByClassName("menuShadow")[0].style = "visibility: visible";
-        document.getElementsByClassName("presetMenu")[0].style = "visibility: visible";
-    }
-
-    function closePresetMenu() {
-        document.getElementsByClassName("menuShadow")[0].style = "visibility: collapse";
-        document.getElementsByClassName("presetMenu")[0].style = "visibility: collapse";
-    }
-
-    document.getElementsByClassName("presetButton")[0].addEventListener('click', (e) => {
-        openPresetMenu();
-    });
-
-    document.getElementsByClassName("menuShadow")[0].addEventListener('click', (e) => {
-        closePresetMenu();
-    });
-
-    document.getElementsByClassName("presetMenuCloseButton")[0].addEventListener('click', (e) => {
-        closePresetMenu();
-    });
-</script>
-
-<script>
-    function closeAddPresetForm() {
-        document.getElementsByClassName("addPresetForm")[0].style = "visibility: collapse;";
-    }
-
-    function setPresetSliders() {
-        for (const [key, slider] of Object.entries(sliders)) {
-            let sliderNameCapitalised = String(slider.name).charAt(0).toUpperCase() + String(slider.name).slice(1);
-            document.getElementById(`${key}PresetLabel`).innerText = `${sliderNameCapitalised}: ${slider.value}`;
-            document.getElementById(`${sliderNameCapitalised}Preset`).value = slider.value;
-        }
-    }
-
-    function openAddPresetForm() {
-        document.getElementsByClassName("addPresetForm")[0].style = "visibility: visible;";
-    }
-
-    document.getElementsByClassName("closeAddPresetForm")[0].addEventListener('click', (e) => {
-        closeAddPresetForm();
-    });
-
-    document.getElementById("addNewPreset").addEventListener('click', (e) => {
-        closePresetMenu();
-        setPresetSliders();
-        openAddPresetForm();
-    });
-</script>
-
-<script>
-    function closeEditPresetForm() {
-        document.getElementsByClassName("editPresetForm")[0].style = "visibility: collapse;";
-    }
-
-    function setEditPresetSliders(brightness, contrast, saturation, grayscale, temperature, tint, grain, vignette) {
-        for (const [key, slider] of Object.entries(sliders)) {
-            let sliderNameCapitalised = String(slider.name).charAt(0).toUpperCase() + String(slider.name).slice(1);
-
-            switch (sliderNameCapitalised) {
-                case "Brightness":
-                    document.getElementById("brightnessEditPresetLabel").innerText = `${sliderNameCapitalised}: ${brightness}`;
-                    document.getElementById("BrightnessPresetEdit").value = brightness;
-                    break;
-
-                case "Contrast":
-                    document.getElementById("contrastEditPresetLabel").innerText = `${sliderNameCapitalised}: ${contrast}`;
-                    document.getElementById("ContrastPresetEdit").value = contrast;
-                    break;
-
-                case "Saturation":
-                    document.getElementById("saturationEditPresetLabel").innerText = `${sliderNameCapitalised}: ${saturation}`;
-                    document.getElementById("SaturationPresetEdit").value = saturation;
-                    break;
-
-                case "Grayscale":
-                    document.getElementById("grayscaleEditPresetLabel").innerText = `${sliderNameCapitalised}: ${grayscale}`;
-                    document.getElementById("GrayscalePresetEdit").value = grayscale;
-                    break;
-
-                case "Temperature":
-                    document.getElementById("temperatureEditPresetLabel").innerText = `${sliderNameCapitalised}: ${temperature}`;
-                    document.getElementById("TemperaturePresetEdit").value = temperature;
-                    break;
-
-                case "Tint":
-                    document.getElementById("tintEditPresetLabel").innerText = `${sliderNameCapitalised}: ${tint}`;
-                    document.getElementById("TintPresetEdit").value = tint;
-                    break;
-
-                case "Grain":
-                    document.getElementById("grainEditPresetLabel").innerText = `${sliderNameCapitalised}: ${grain}`;
-                    document.getElementById("GrainPresetEdit").value = grain;
-                    break;
-
-                case "Vignette":
-                    document.getElementById("vignetteEditPresetLabel").innerText = `${sliderNameCapitalised}: ${vignette}`;
-                    document.getElementById("VignettePresetEdit").value = vignette;
-                    break;
-            }
-        }
-    }
-
-    function showEditPresetForm() {
-        document.getElementsByClassName("editPresetForm")[0].style = "visibility: visible;";
-    }
-
-    function setEditedPresetId(presetId) {
-        document.getElementById("EditPresetId").value = presetId;
-        document.getElementById("EditPresetId").innerText = presetId;
-    }
-
-    function setEditedPresetName(presetName) {
-        document.getElementById("NamePresetEdit").value = presetName;
-        document.getElementById("NamePresetEdit").innerText = presetName;
-    }
-
-    document.getElementsByClassName("closeEditPresetForm")[0].addEventListener('click', (e) => {
-        closeEditPresetForm();
-    });
-
-    function openEditPresetForm(presetId, presetName, brightness, contrast, saturation, grayscale, temperature, tint, grain, vignette) {
-        closePresetMenu();
-        setEditedPresetId(presetId);
-        setEditedPresetName(presetName);
-        setEditPresetSliders(brightness, contrast, saturation, grayscale, temperature, tint, grain, vignette);
-        showEditPresetForm();
-    }
-
 </script>
