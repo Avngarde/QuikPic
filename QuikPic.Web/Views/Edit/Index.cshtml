@@ -129,7 +129,8 @@
 <script>
     const photo = document.getElementById('photoUpload');
     const filePath = "@filePath";
-    const selectedPresetId = @Html.Raw(Json.Serialize(selectedPreset?.Id));
+    const selectedPreset = @Html.Raw(Json.Serialize(selectedPreset));
+    console.log(selectedPreset);
 
     const sliders = {
         brightness: document.getElementById('Brightness'),
@@ -242,8 +243,8 @@
     });
 
     startSignalRConnection().then(() => {
-        if (selectedPresetId != null) {
-            applyPreset(selectedPresetId);
+        if (selectedPreset != null) {
+            applyPreset(selectedPreset);
         }
     });
 </script>

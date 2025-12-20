@@ -11,12 +11,10 @@ namespace QuikPic.Web.Hubs;
 public class ImageHub : Hub
 {
     private readonly IWebHostEnvironment _env;
-    private readonly IPresetService _presetService;
 
-    public ImageHub(IWebHostEnvironment env, IPresetService presetService) 
+    public ImageHub(IWebHostEnvironment env) 
     {
         _env = env;
-        _presetService = presetService;
     }
 
     private string CreatePreviewFile(Image<Rgba32> image, string fileName)
@@ -64,13 +62,10 @@ public class ImageHub : Hub
         }
     }
 
-    public async Task ApplyPresetById(int presetId, string fileName)
+    public async Task ApplyPresetById(Preset preset, string fileName)
     {
         try
         {
-            Preset? preset = _presetService.GetById(presetId);
-            if (preset == null) throw new Exception();
-
             EditData editData = new()
             {
                 Brightness = preset.Brightness,

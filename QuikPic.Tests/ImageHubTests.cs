@@ -10,7 +10,7 @@ namespace QuikPic.Tests;
 public class ImageHubTests
 {
     [Fact]
-    public async Task ApplyFiltersToImage_ThrowsNoException()
+    public async Task ApplyFilters_ThrowsNoException()
     {
         var mockEnv = new Mock<IWebHostEnvironment>();
         var mockClients = new Mock<IHubCallerClients>();
@@ -40,7 +40,7 @@ public class ImageHubTests
             Grayscale = 0.0f
         };
 
-        await hub.ApplyFiltersToImage(editData, "/TestImages/TestImage.png");
+        await hub.ApplyFilters(editData, "/TestImages/TestImage.png");
 
         mockCaller.Verify(c => c.SendCoreAsync(
             "ImageUpdated",
