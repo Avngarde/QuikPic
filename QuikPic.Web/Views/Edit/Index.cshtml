@@ -115,7 +115,7 @@
                     <div class="sliderHolder">
                         <label id="@($"{slider.name}Label")">@slider.name: @slider.value</label>
                         <input type="range" min="@slider.min" max="@slider.max" value="@slider.value" 
-                            step="0.01" name="@slider.name" id="@slider.name" oninput="updateImage()" />
+                            step="0.01" name="@slider.name" id="@slider.name" onchange="updateImage()" oninput="updateLabels()"  />
                     </div>
                 }
 
