@@ -202,6 +202,7 @@
             Grain: parseFloat(document.getElementById("Grain").value)
         };
 
+        showLoader();
         updateLabels();
         updateAddPresetForm();
         await connection.invoke("ApplyFilters", request, filePath);
@@ -226,12 +227,17 @@
         }
     }
 
+    function showLoader() {
+        photo.src = "/loader.svg";
+    }
+
     async function applyPreset(preset) {
         await connection.invoke("ApplyPresetById", preset, filePath);
     }
 
     startSignalRConnection().then(async () => {
         if (selectedPreset != null) {
+            showLoader();
             await applyPreset(selectedPreset);
         }
     });
