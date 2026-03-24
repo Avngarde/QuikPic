@@ -44,7 +44,7 @@ public class ImageHubTests
 
         mockCaller.Verify(c => c.SendCoreAsync(
             "ImageUpdated",
-            It.Is<object[]>(o => o.Length == 1 && o[0].ToString().EndsWith("TestImage.png")),
+            It.Is<object[]>(o => o.Length == 1 && o[0].ToString().EndsWith("TestImage_temp.png")),
             default), Times.Once);
     }
 }
