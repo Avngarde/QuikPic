@@ -25,7 +25,7 @@ public class ImageProcessorTests
 {
     [Theory]
     [MemberData(nameof(EditDataTestCases.EditDataCases), MemberType = typeof(EditDataTestCases))]
-    public void ForImage_ApplyFilters_ChecksForExceptions(EditData editData)
+    public void ForImage_ApplyFilters_ThrowsNoException(EditData editData)
     {
         using var image = new SixLabors.ImageSharp.Image<SixLabors.ImageSharp.PixelFormats.Rgba32>(10, 10);
 
