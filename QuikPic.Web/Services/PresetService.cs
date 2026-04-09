@@ -40,6 +40,11 @@ public class PresetService : IPresetService
 
     public Preset GetById(int id)
     {
-        return _qpContext.Presets.Find(id);
+        Preset? preset = _qpContext.Presets.Find(id);
+        return preset;
+        if (preset is not null)
+            return preset;
+        else
+            return new Preset();
     }
 }
