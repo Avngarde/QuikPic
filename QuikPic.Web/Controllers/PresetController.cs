@@ -18,7 +18,8 @@ namespace QuikPic.Web.Controllers
             _presetService.Add(preset);
 
             var fileGuid = fileName.Replace("/uploads/", "");
-            return RedirectToAction("Index", "Edit", new { fileGuid });
+            int presetId = preset.Id;
+            return RedirectToAction("Index", "Edit", new { fileGuid, presetId  });
         }
 
         public ActionResult EditPreset([FromForm] Preset preset, string fileName)
