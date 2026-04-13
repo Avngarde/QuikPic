@@ -204,6 +204,11 @@
     transition: 0.3s;
 }
 
+.presetName {
+    width: 100%;
+    text-align: left;
+}
+
 .presetsList {
     width: 100%;
     display: flex;
