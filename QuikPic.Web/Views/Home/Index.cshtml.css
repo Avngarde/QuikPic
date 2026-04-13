@@ -1,15 +1,33 @@
-.container {
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    background-color: #CBDCEB;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-.containerHalf.left {
-    width: 50%;
+body {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background: linear-gradient(135deg, #dbeafe, #eff6ff);
+    color: #1f2933;
+}
+
+.container {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+.containerHalf.left,
+.containerHalf.right {
+    width: 100%;
+    max-width: 900px;
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 20px;
 }
 
 .containerHalf.left .content {
@@ -18,16 +36,18 @@
 }
 
 .logo {
-    font-size: 4rem;
-    font-weight: bold;
-    color: #1e3a8a; /* ciemny niebieski */
+    font-size: 4.5rem;
+    font-weight: 800;
+    background: linear-gradient(90deg, #2563eb, #1e40af);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     margin-bottom: 20px;
 }
 
 .tagline {
     font-size: 1.2rem;
-    color: #374151; /* ciemny szary */
-    margin-bottom: 40px;
+    color: #4b5563;
+    line-height: 1.6;
 }
 
 .containerHalf.right {
@@ -35,28 +55,65 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-size: cover;
-    background-position: center;
-    position: relative;
-}
-
-.btn-start:hover {
-    background: #ff3b2e;
-    transform: translateY(-3px);
 }
 
 #photoUpload {
-    width: 100%;
-    height: 100%;
-    font-size: 1.4rem;
+    height: 200px;
+    
     display: flex;
     justify-content: center;
     align-items: center;
-    font-weight: bold;
-    color: #7c7e81;
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 16px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    box-shadow: 
+        0 8px 20px rgba(0, 0, 0, 0.08),
+        inset 0 0 0 1px rgba(255,255,255,0.4);
 
-    border-radius: 15px;
-    background: #CBDCEB;
-    box-shadow:  8px 8px 0px #51585e,
-                -8px -8px 0px #ffffff;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+#photoUpload:hover {
+    transform: translateY(-4px) scale(1.02);
+    color: #1e3a8a;
+
+    box-shadow: 
+        0 15px 30px rgba(0, 0, 0, 0.12),
+        inset 0 0 0 1px rgba(255,255,255,0.6);
+}
+
+#photoUpload:active {
+    transform: scale(0.98);
+}
+
+#photoUpload.dragover {
+    border: 2px dashed #2563eb;
+    background: rgba(37, 99, 235, 0.1);
+    color: #2563eb;
+}
+
+
+@media (max-width: 900px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .containerHalf.left,
+    .containerHalf.right {
+        width: 100%;
+        height: 50%;
+    }
+
+    .containerHalf.left .content {
+        text-align: center;
+    }
+
+    .logo {
+        font-size: 3rem;
+    }
 }
