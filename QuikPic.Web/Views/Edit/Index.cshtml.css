@@ -52,7 +52,8 @@
 .sliderHolder {
     display: flex;
     align-items: center;
-    gap: 0.7vh;
+    gap: 1vh;
+    padding: 20px;
 }
 
 #photoUpload {
