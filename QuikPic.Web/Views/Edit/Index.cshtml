@@ -209,13 +209,22 @@
     }
 
     function togglePresetMenu(toggle) {
-        if (toggle) {
+        if (toggle) { 
             document.getElementById("menuShadow").style = "visibility: visible";
             document.getElementById("presetMenu").style = "visibility: visible";
         } else {
             document.getElementById("menuShadow").style = "visibility: collapse";
             document.getElementById("presetMenu").style = "visibility: collapse";
         }
+    }
+
+    function toggleAddPresetInputs(toggle) {
+        for (const slider of sliderNames) {
+            if (toggle)
+                document.getElementById(`${slider}Preset`).style = 'pointer-events: none;';
+            else
+                document.getElementById(`${slider}Preset`).style = 'pointer-events: auto;';
+        }  
     }
 
     function toggleAddPresetForm(toggle) {
@@ -225,6 +234,8 @@
         } else {
             document.getElementById("addPresetForm").style = "visibility: collapse;";
         }
+
+        toggleAddPresetInputs(toggle);
     }
 
     function showLoader() {
