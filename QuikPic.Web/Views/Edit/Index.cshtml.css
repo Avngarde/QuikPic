@@ -32,23 +32,6 @@
     align-items: center;
 }
 
-.slidersHolder {
-    width: 90%;
-    height: 10vh;
-    border-radius: 15px;
-    background: #CBDCEB;
-    box-shadow:  5px 5px 0px #cddfeb,
-             -5px -5px 0px #f1ffff;  
-
-    justify-content: center;
-    align-items: center;
-
-    display: flex;
-    gap: 2vh;
-    flex-wrap: wrap;
-    padding: 0.5%;
-}
-
 .sliderHolder {
     display: flex;
     align-items: center;
@@ -244,7 +227,6 @@
 
 .slidersHolder {
     width: 90%;
-    height: 10vh;
     border-radius: 15px;
     background: #CBDCEB;
     box-shadow:  5px 5px 0px #cddfeb,
