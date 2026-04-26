@@ -1,7 +1,7 @@
 .container {
     width: 100%;
     height: 100vh;
-    background-color: #CBDCEB;
+    background-color: #FFFBF1;
 }
 
 .photoContainer {
@@ -52,9 +52,9 @@
     height: 60vh;
     font-weight: bold;
     border-radius: 15px;
-    background: linear-gradient(145deg, #d9ebfb, #b7c6d4);
-    box-shadow:  5px 5px 0px #cddfeb,
-             -5px -5px 0px #f1ffff;;
+    background: #FFFBF1;
+    box-shadow:  5px 5px 0px #ccc9c1,
+                -5px -5px 0px #ffffff;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
@@ -65,8 +65,9 @@
     border-radius: 15px;
     padding: 1% 1.5% 1% 1.5%;
     border: none;
-    background: linear-gradient(145deg, #d9ebfb, #b7c6d4);
-    box-shadow: 5px 5px 5px #b7c6d4, -2px -2px 0px #dff2ff;
+    background: #FFFBF1;
+    box-shadow:  5px 5px 0px #ccc9c1,
+                -5px -5px 0px #ffffff;
     font-weight: 700;
 
 }
@@ -75,9 +76,9 @@
     -webkit-appearance: none;
     height: 12px;
     border-radius: 10px;
-    background: #fbfbfb;
-    box-shadow: inset 3px 3px 6px #bebebe,
-                inset -3px -3px 6px #ffffff;
+    background: #fffbf5;
+    box-shadow:  2px 2px 0px #ccc9c1,
+                -2px -2px 0px #ffffff;
     outline: none;
   }
 
@@ -86,9 +87,9 @@
     height: 24px;
     width: 24px;
     border-radius: 50%;
-    background: #b8c8d5;
-    box-shadow: 1px 1px 3px #bebebe,
-                -1px -1px 3px #ffffff;
+    background: #fcf3da;
+    box-shadow:  2px 2px 0px #ccc9c1,
+                -2px -2px 0px #ffffff;
     cursor: pointer;
     transition: 0.2s;
   }
@@ -102,18 +103,18 @@
     height: 24px;
     width: 24px;
     border-radius: 50%;
-    background: #e0e0e0;
-    box-shadow: 3px 3px 6px #bebebe,
-                -3px -3px 6px #ffffff;
+    background: #fcf3da;
+    box-shadow:  2px 2px 0px #ccc9c1,
+                -2px -2px 0px #ffffff;
     cursor: pointer;
   }
 
   input[type="range"]::-moz-range-track {
     height: 12px;
     border-radius: 10px;
-    background: #e0e0e0;
-    box-shadow: inset 3px 3px 6px #bebebe,
-                inset -3px -3px 6px #ffffff;
+    background: #FFFBF1;
+    box-shadow:  5px 5px 0px #ccc9c1,
+                -5px -5px 0px #ffffff;
   }
 
 #presetsHolder {
@@ -125,8 +126,9 @@
     padding: .7%;
     color: #555555;
     border-radius: 10px;
-    background: #b8c8d5;
-    box-shadow: 5px 5px 0px #cddfeb, -5px -5px 0px #f1ffff;
+    background: #FFFBF1;
+    box-shadow:  5px 5px 0px #ccc9c1,
+                -5px -5px 0px #ffffff;
     font-weight: 700;
     transition: 0.3s;
     margin: 1.1%;
@@ -151,8 +153,9 @@
     position: absolute;
     height: 100vh;
     width: 35%;
-    background-color: #b8c8d5;
-    box-shadow: 1px 1px 3px #bebebe, -1px -1px 3px #ffffff; 
+    background: #FFFBF1;
+    box-shadow:  5px 5px 0px #ccc9c1,
+                -5px -5px 0px #ffffff;
     visibility: collapse;
 }
 
@@ -170,8 +173,9 @@
     margin: 2%;
     padding: 2.5%;
     border-radius: 3.5px;
-    background-color: #cddfeb;
-    box-shadow: -5px 5px 0px #b4c4cf, 5px -5px 0px #e6faff;
+    background: #FFFBF1;
+    box-shadow:  5px 5px 0px #ccc9c1,
+                -5px -5px 0px #ffffff;
     transition: 0.3s;
     display: flex;
     justify-content: space-between;
@@ -237,9 +241,9 @@
 .slidersHolder {
     width: 90%;
     border-radius: 15px;
-    background: #CBDCEB;
-    box-shadow:  5px 5px 0px #cddfeb,
-             -5px -5px 0px #f1ffff;  
+    background: #FFFBF1;
+    box-shadow:  5px 5px 0px #ccc9c1,
+                -5px -5px 0px #ffffff;
 
     justify-content: center;
     align-items: center;
@@ -261,8 +265,9 @@
     border-radius: 5px;
     padding: 1.5% 1.5% 1.5% 1.5%;
     border: none;
-    background: linear-gradient(145deg, #d9ebfb, #b7c6d4);
-    box-shadow: 5px 5px 5px #b7c6d4, -2px -2px 0px #dff2ff;
+    background: #FFFBF1;
+    box-shadow:  5px 5px 0px #ccc9c1,
+                -5px -5px 0px #ffffff;
     font-weight: 700;
     margin: 0% 10% 0% 10%;
 }
