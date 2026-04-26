@@ -48,6 +48,10 @@
     padding: 20px;
 }
 
+.sliderHolder label {
+    width: 118px;
+}
+
 #photoUpload {
     height: 60vh;
     font-weight: bold;
