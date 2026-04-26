@@ -23,7 +23,7 @@ namespace QuikPic.Web.Controllers
             Preset? selectedPreset;
             if (presetId is not null)
             {
-                selectedPreset = presets.Where(p => p.Id == presetId).FirstOrDefault();
+                selectedPreset = presets.FirstOrDefault(p => p.Id == presetId);
                 if (selectedPreset is not null) 
                     ViewData["selectedPreset"] = selectedPreset;
             }
