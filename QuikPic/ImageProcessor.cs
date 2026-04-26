@@ -40,9 +40,6 @@ namespace QuikPic
 
             if (editData.Vignette > 0f)
                 ApplyVignette(_image, editData.Vignette);
-
-            if (editData.Grain > 0f)
-                AddGrain(_image, editData.Grain);
         }
 
         private static void ApplyTemperature(Image<Rgba32> image, float temperature)
@@ -100,30 +97,6 @@ namespace QuikPic
                 AlphaCompositionMode = PixelAlphaCompositionMode.SrcOver,
                 BlendPercentage = strength
             }));
-        }
-
-        private static void AddGrain(Image<Rgba32> image, float intensity)
-        {
-            // intensity: 0..3 (tune as you like)
-            var random = new Random();
-            int grainAmount = (int)(image.Width * image.Height * 0.001f * (intensity)); // density scaling
-
-            image.ProcessPixelRows(accessor =>
-            {
-                for (int i = 0; i < grainAmount; i++)
-                {
-                    int x = random.Next(image.Width);
-                    int y = random.Next(image.Height);
-
-                    Span<Rgba32> row = accessor.GetRowSpan(y);
-                    ref Rgba32 p = ref row[x];
-
-                    int delta = random.Next(-20, 21);
-                    p.R = (byte)Math.Clamp(p.R + delta, 0, 255);
-                    p.G = (byte)Math.Clamp(p.G + delta, 0, 255);
-                    p.B = (byte)Math.Clamp(p.B + delta, 0, 255);
-                }
-            });
         }
 
         public byte[] GetImageBytes()

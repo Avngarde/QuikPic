@@ -11,6 +11,5 @@ public class PresetDto
     public float Grayscale { get; set; }
     public float Temperature { get; set; }
     public float Tint { get; set; }
-    public float Grain { get; set; }
     public float Vignette { get; set; }
 }

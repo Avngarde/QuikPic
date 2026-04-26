@@ -74,7 +74,6 @@ public class ImageHub : Hub
                 Grayscale = preset.Grayscale,
                 Temperature = preset.Temperature,
                 Tint = preset.Tint,
-                Grain = preset.Grain,
                 Vignette = preset.Vignette
             };
 

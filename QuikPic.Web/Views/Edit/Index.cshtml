@@ -10,7 +10,6 @@
         ("Grayscale", 0, 1, 0.0),
         ("Temperature", -1, 1, 0.0),
         ("Tint", -1, 1, 0.0),
-        ("Grain", 0, 3, 0.0),
         ("Vignette", 0, 2, 0.0)
     ];
 }
@@ -139,7 +138,6 @@
         'Temperature',
         'Tint',
         'Vignette',
-        'Grain'
     ];
 
     const connection = new signalR.HubConnectionBuilder()
@@ -199,7 +197,6 @@
             Temperature: parseFloat(document.getElementById("Temperature").value),
             Tint: parseFloat(document.getElementById("Tint").value),
             Vignette: parseFloat(document.getElementById("Vignette").value),
-            Grain: parseFloat(document.getElementById("Grain").value)
         };
 
         showLoader();
