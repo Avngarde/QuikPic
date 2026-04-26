@@ -102,7 +102,10 @@
         <img id="photoUpload" src="@filePath" />
         @if (selectedPreset is not null)
         {
-            <p id="selectedPresetName">Currently used preset: @selectedPreset.Name</p>
+            <p id="selectedPresetName">
+                Currently used preset: @selectedPreset.Name
+                <a onclick="location.href='@Url.Action("Index", "Edit", new { fileGuid = @fileGuid, presetId = -1 })'">Cancel</a>
+            </p>
         }
     </div>
 

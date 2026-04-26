@@ -24,6 +24,15 @@
     border: 0.5px solid #9aaab8;
 }
 
+#selectedPresetName a {
+    color: #b30000;
+    margin-left: 15px;
+}
+
+#selectedPresetName a:hover {
+    cursor: pointer;
+}
+
 .slidersContainer {
     width: 100%;
     height: 30vh;
