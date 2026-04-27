@@ -13,6 +13,11 @@
     align-items: center;
 }
 
+.highlightPreset {
+    border: 3px solid #2563eb !important;
+    box-shadow: 2px 2px 0px #2563eb, -5px -5px 0px #ffffff !important;
+}
+
 #selectedPresetName {
     padding: .7%;
     color: #2f2f2f;
