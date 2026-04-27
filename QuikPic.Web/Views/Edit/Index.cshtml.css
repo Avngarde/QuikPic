@@ -84,6 +84,7 @@
     box-shadow:  2px 2px 0px #ccc9c1,
                 -2px -2px 0px #ffffff;
     outline: none;
+    border: 1px solid #dddddd;
   }
 
   input[type="range"]::-webkit-slider-thumb {
