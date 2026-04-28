@@ -44,24 +44,24 @@
         </div>
     </div>
 
-    <div class="editPresetForm">
+    <div id="editPresetForm">
         <div class="editPresetFormBackground">
             <div class="editPresetFormHolder">
                 <form asp-action="EditPreset" asp-controller="Preset" method="post" style="display: flex; flex-direction: column; justify-content: center; padding: 5%; gap: 2vh;">
                     <div style="display: flex; justify-content: space-between; margin: 0% 10% 0% 10%;">
                         <h1>Edit preset</h1>
-                        <h1 class="closeEditPresetForm">x</h1>
+                        <h1 class="closeEditPresetForm" onclick="toggleEditPresetForm(false)">x</h1>
                     </div>
 
-                    <input type="text" name="Name" id="NamePresetEdit" class="presetNameInput" placeholder="Preset name" />
-                    <input type="number" name="Id" id="EditPresetId" readonly style="visibility: hidden;" />
+                    <input type="text" name="Name" id="NamePresetEdit" class="presetNameInput" placeholder="Preset name" value="@selectedPreset?.Name" />
+                    <input type="number" name="Id" id="EditPresetId" value="@selectedPreset?.Id" readonly style="visibility: hidden;" />
 
                     <div class="slidersPresetsHolder">
                         @foreach(var slider in sliders) 
                         {
                             <div class="sliderPresetHolder">
                                 <label id="@($"{slider.name}EditPresetLabel")">@slider.name: @slider.value</label>
-                                <input type="range" min="@slider.min" max="@slider.max" value="@slider.value" step="0.01" name="@slider.name" id="@($"{slider.name}PresetEdit")" />
+                                <input type="range" min="@slider.min" max="@slider.max" value="@slider.value" step="0.01" name="@slider.name" id="@($"{slider.name}EditPreset")" />
                             </div>
                         }
                     </div>
@@ -91,8 +91,10 @@
                         <button class="preset highlightPreset">
                             <span class="presetName" onclick="location.href='@Url.Action("Index", "Edit", new { fileGuid = @fileGuid, presetId = preset.Id })'">@preset.Name</span>
                             <span class="presetActionButtons">
-                                <span
-                                    onclick="location.href='@Url.Action("DeletePreset", "Preset", new { id = preset.Id, fileName = @filePath })'">Delete</span>
+                                <span 
+                                    class="presetEditButton" onclick="toggleEditPresetForm(true)">Edit</span>
+                                <span 
+                                    class="presetDeleteButton" onclick="location.href='@Url.Action("DeletePreset", "Preset", new { id = preset.Id, fileName = @filePath })'">Delete</span>
                             </span>
                         </button>
                     } 
@@ -101,8 +103,8 @@
                          <button class="preset">
                             <span class="presetName" onclick="location.href='@Url.Action("Index", "Edit", new { fileGuid = @fileGuid, presetId = preset.Id })'">@preset.Name</span>
                             <span class="presetActionButtons">
-                                <span
-                                    onclick="location.href='@Url.Action("DeletePreset", "Preset", new { id = preset.Id, fileName = @filePath })'">Delete</span>
+                                <span 
+                                    class="presetDeleteButton" onclick="location.href='@Url.Action("DeletePreset", "Preset", new { id = preset.Id, fileName = @filePath })'">Delete</span>
                             </span>
                         </button>                       
                     }
@@ -183,6 +185,7 @@
         
         updateLabels();
         updateAddPresetForm();
+        updateEditPresetForm();
     });
 
     connection.on("ImageError", (message) => {
@@ -204,6 +207,14 @@
         }       
     }
 
+    function updateEditPresetForm() {
+        for (const slider of sliderNames) {
+            let sliderValue = document.getElementById(`${slider}`).value;
+            document.getElementById(`${slider}EditPresetLabel`).innerText = `${slider}: ${sliderValue}`;
+            document.getElementById(`${slider}EditPreset`).value = sliderValue;
+        }
+    }
+
     async function updateImage() {
         const request = {
             Brightness: parseFloat(document.getElementById("Brightness").value),
@@ -218,6 +229,7 @@
         showLoader();
         updateLabels();
         updateAddPresetForm();
+        updateEditPresetForm();
         await connection.invoke("ApplyFilters", request, filePath);
     }
 
@@ -240,6 +252,15 @@
         }  
     }
 
+    function toggleEditPresetInputs(toggle) {
+        for (const slider of sliderNames) {
+            if (toggle)
+                document.getElementById(`${slider}EditPreset`).style = 'pointer-events: none;';
+            else
+                document.getElementById(`${slider}EditPreset`).style = 'pointer-events: auto;';
+        }
+    }
+
     function toggleAddPresetForm(toggle) {
         if (toggle) {
             togglePresetMenu(false);
@@ -249,6 +270,17 @@
         }
 
         toggleAddPresetInputs(toggle);
+    }
+
+    function toggleEditPresetForm(toggle) {
+        if (toggle) {
+            togglePresetMenu(false);
+            document.getElementById("editPresetForm").style = "visibility: visible;";
+        } else {
+            document.getElementById("editPresetForm").style = "visibility: collapse;";
+        }
+
+        toggleEditPresetInputs(toggle);
     }
 
     function showLoader() {

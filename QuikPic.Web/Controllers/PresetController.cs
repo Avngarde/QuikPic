@@ -22,12 +22,14 @@ namespace QuikPic.Web.Controllers
             return RedirectToAction("Index", "Edit", new { fileGuid, presetId  });
         }
 
+        [HttpPost]
         public ActionResult EditPreset([FromForm] Preset preset, string fileName)
         {
             _presetService.EditPreset(preset);
 
             var fileGuid = fileName.Replace("/uploads/", "");
-            return RedirectToAction("Index", "Edit", new { fileGuid });
+            var presetId = preset.Id;
+            return RedirectToAction("Index", "Edit", new { fileGuid, presetId });
         }
 
         public ActionResult DeletePreset(int id, string fileName)
