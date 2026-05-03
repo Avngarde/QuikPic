@@ -78,7 +78,14 @@
     box-shadow:  5px 5px 0px #ccc9c1,
                 -5px -5px 0px #ffffff;
     font-weight: 700;
+    transition: .2s;
+}
 
+.downloadButton:hover {
+    transition: .2s;
+    box-shadow:  10px 10px 0px #ccc9c1,
+                -10px -10px 0px #ffffff;    
+    cursor: pointer;
 }
 
   input[type="range"] {
