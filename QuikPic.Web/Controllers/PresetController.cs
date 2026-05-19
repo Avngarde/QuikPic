@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using QuikPic.Web.Errors;
 using QuikPic.Web.Models;
 using QuikPic.Web.Services;
 
@@ -15,11 +16,38 @@ namespace QuikPic.Web.Controllers
 
         public ActionResult AddPreset([FromForm] Preset preset, string fileName)
         {
-            _presetService.Add(preset);
-
             var fileGuid = fileName.Replace("/uploads/", "");
             int presetId = preset.Id;
-            return RedirectToAction("Index", "Edit", new { fileGuid, presetId  });
+
+            try
+            {
+                if (preset.Name is null) 
+                {
+                    return RedirectToAction("Index", "Edit", new
+                    {
+                        fileGuid,
+                        presetId,
+                        ErrorMessage = "Invalid preset name",
+                        ErrorType = ErrorType.AddPresetError
+                    });
+                }
+
+                _presetService.Add(preset);
+
+                presetId = preset.Id;
+
+                return RedirectToAction("Index", "Edit", new { fileGuid, presetId });
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Edit", new
+                {
+                    fileGuid,
+                    presetId,
+                    ErrorMessage = "Failed to add new preset",
+                    ErrorType = ErrorType.AddPresetError
+                });
+            }
         }
 
         [HttpPost]

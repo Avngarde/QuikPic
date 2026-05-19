@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.IO;
 using QuikPic.Web.Models;
+using QuikPic.Web.Errors;
 
 namespace QuikPic.Web.Controllers
 {
@@ -17,7 +18,7 @@ namespace QuikPic.Web.Controllers
         }
 
         [Route("[controller]/[action]/{fileGuid}/{presetId?}")]
-        public IActionResult Index(string fileGuid, int? presetId)
+        public IActionResult Index(string fileGuid, int? presetId, [FromQuery] Error? error)
         {
             var presets = _qpDbContext.Presets.ToList();
             Preset? selectedPreset;
@@ -27,6 +28,9 @@ namespace QuikPic.Web.Controllers
                 if (selectedPreset is not null) 
                     ViewData["selectedPreset"] = selectedPreset;
             }
+
+            if (error is null || error.ErrorMessage is not null)
+                ViewData["Error"] = error;
 
             ViewData["fileGuid"] = fileGuid;
             ViewData["presets"] = presets;

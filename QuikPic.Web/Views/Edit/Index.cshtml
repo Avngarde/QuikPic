@@ -1,8 +1,11 @@
-﻿@{
+﻿@using QuikPic.Web.Errors
+@{
     var fileGuid = ViewData["fileGuid"];
     var filePath = "/uploads/" + fileGuid;
+    Error? error = ViewData["Error"] is not null ? (Error)ViewData["Error"] : null;
     List<Preset> presets = ViewData["presets"] != null ? (List<Preset>)ViewData["presets"] : new List<Preset>();
     Preset? selectedPreset = ViewData["selectedPreset"] != null ? (Preset)ViewData["selectedPreset"] : null;
+
     (string name, int min, int max, double value)[] sliders = [
         ("Brightness", 0, 2, 1.0),
         ("Contrast", 0, 2, 1.0),
@@ -23,6 +26,11 @@
                         <h1>Add preset</h1>
                         <h1 id="closeAddPresetForm" onclick="toggleAddPresetForm(false)">x</h1>
                     </div>
+
+                    @if(error is not null && error.ErrorType == ErrorType.AddPresetError)
+                    {
+                        <h3 class="errorMessage">@error.ErrorMessage</h3>
+                    }
 
                     <input type="text" name="Name" id="Name" class="presetNameInput" placeholder="Preset name" />
 
@@ -298,3 +306,14 @@
         }
     });
 </script>
+
+@if (error is not null && error.ErrorType == ErrorType.AddPresetError)
+{
+    <text>
+        <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    toggleAddPresetForm(true);
+                });
+        </script>
+    </text>
+}
