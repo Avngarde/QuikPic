@@ -61,6 +61,11 @@
                         <h1 class="closeEditPresetForm" onclick="toggleEditPresetForm(false)">x</h1>
                     </div>
 
+                    @if(error is not null && error.ErrorType == ErrorType.EditPresetError)
+                    {
+                        <h3 class="errorMessage">@error.ErrorMessage</h3>
+                    }
+
                     <input type="text" name="Name" id="NamePresetEdit" class="presetNameInput" placeholder="Preset name" value="@selectedPreset?.Name" />
                     <input type="number" name="Id" id="EditPresetId" value="@selectedPreset?.Id" readonly style="visibility: hidden;" />
 
@@ -313,6 +318,17 @@
         <script>
                 document.addEventListener("DOMContentLoaded", function () {
                     toggleAddPresetForm(true);
+                });
+        </script>
+    </text>
+}
+
+@if (error is not null && error.ErrorType == ErrorType.EditPresetError)
+{
+    <text>
+        <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    toggleEditPresetForm(true);
                 });
         </script>
     </text>

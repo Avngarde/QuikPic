@@ -53,11 +53,36 @@ namespace QuikPic.Web.Controllers
         [HttpPost]
         public ActionResult EditPreset([FromForm] Preset preset, string fileName)
         {
-            _presetService.EditPreset(preset);
-
             var fileGuid = fileName.Replace("/uploads/", "");
             var presetId = preset.Id;
-            return RedirectToAction("Index", "Edit", new { fileGuid, presetId });
+
+            try
+            {
+                if (preset.Name is null)
+                {
+                    return RedirectToAction("Index", "Edit", new
+                    {
+                        fileGuid,
+                        presetId,
+                        ErrorMessage = "Invalid preset name",
+                        ErrorType = ErrorType.EditPresetError
+                    });                    
+                }
+
+                _presetService.EditPreset(preset);
+
+                return RedirectToAction("Index", "Edit", new { fileGuid, presetId });
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Index", "Edit", new
+                {
+                    fileGuid,
+                    presetId,
+                    ErrorMessage = "Failed to edit preset",
+                    ErrorType = ErrorType.EditPresetError
+                });                
+            }
         }
 
         public ActionResult DeletePreset(int id, string fileName)
