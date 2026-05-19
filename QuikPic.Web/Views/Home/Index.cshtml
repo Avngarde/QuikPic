@@ -1,5 +1,6 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+    var errorMessage = ViewData["ErrorMessage"];
 }
 
 <div class="container">
@@ -9,6 +10,12 @@
             <p class="tagline">Quick and simple photo editing — directly in your web browser</p>
         </div>
     </div>
+
+    @if(errorMessage is not null)
+    {
+        <span class="errorMessage">@errorMessage</span>
+    }
+
     <div class="containerHalf right">
         @using (Html.BeginForm("UploadFile", "Home", FormMethod.Post, new { enctype = "multipart/form-data", @id="uploadForm", style="width: 60%;height: 70vh;" }))
         {
