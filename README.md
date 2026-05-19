@@ -1,3 +1,5 @@
+![QuikPic logo](https://github.com/Avngarde/QuikPic/blob/master/ReadmeImages/icon.png)
+
 # QuikPic 📸
 
 QuikPic is a lightweight, web-based photo editing application built with **ASP.NET MVC**. Designed for quick and intuitive image adjustments, it allows users to upload images and edit them right from their browser.
@@ -18,3 +20,9 @@ QuikPic is a lightweight, web-based photo editing application built with **ASP.N
 *   **Frontend:** HTML5, CSS3, JavaScript
 *   **Image Processing:** SixLabors.ImageSharp
 ---
+
+## Examples
+
+![QuikPic example](https://github.com/Avngarde/QuikPic/blob/master/ReadmeImages/QuikPic1.png)
+![QuikPic example](https://github.com/Avngarde/QuikPic/blob/master/ReadmeImages/QuikPic2.png)
+![QuikPic example](https://github.com/Avngarde/QuikPic/blob/master/ReadmeImages/QuikPic3.png)
