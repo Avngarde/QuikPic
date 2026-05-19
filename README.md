@@ -1,4 +1,4 @@
-![QuikPic logo](https://github.com/Avngarde/QuikPic/blob/master/ReadmeImages/icon.png)
+<img src="https://github.com/Avngarde/QuikPic/blob/master/ReadmeImages/icon.png" width="200" style="border-radius: 12px;">
 
 # QuikPic 📸
 
@@ -23,6 +23,6 @@ QuikPic is a lightweight, web-based photo editing application built with **ASP.N
 
 ## Examples
 
-![QuikPic example](https://github.com/Avngarde/QuikPic/blob/master/ReadmeImages/QuikPic1.png)
-![QuikPic example](https://github.com/Avngarde/QuikPic/blob/master/ReadmeImages/QuikPic2.png)
-![QuikPic example](https://github.com/Avngarde/QuikPic/blob/master/ReadmeImages/QuikPic3.png)
+<img src="https://github.com/Avngarde/QuikPic/blob/master/ReadmeImages/QuikPic1.png" width="300" style="border-radius: 12px;">
+<img src="https://github.com/Avngarde/QuikPic/blob/master/ReadmeImages/QuikPic2.png" width="300" style="border-radius: 12px;">
+<img src="https://github.com/Avngarde/QuikPic/blob/master/ReadmeImages/QuikPic2.png" width="300" style="border-radius: 12px;">
