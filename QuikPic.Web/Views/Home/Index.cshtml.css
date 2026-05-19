@@ -36,12 +36,23 @@ body {
 }
 
 .logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5vh;
+    margin-bottom: 5%;
+}
+
+.logo h1 {
     font-size: 4.5rem;
     font-weight: 800;
     background: linear-gradient(90deg, #2563eb, #1e40af);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    margin-bottom: 20px;
+}
+
+.logo img {
+    width: 18%;
 }
 
 .tagline {
