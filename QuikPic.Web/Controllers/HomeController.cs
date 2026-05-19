@@ -19,7 +19,7 @@ public class HomeController : Controller
 
     public IActionResult Index(Error? error)
     {
-        if (error.ErrorMessage is not null)
+        if (error is null || error.ErrorMessage is not null)
             ViewData["Error"] = error;
 
         return View();
