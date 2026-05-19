@@ -27,6 +27,6 @@ QuikPic is a lightweight, web-based photo editing application built with **ASP.N
 
 ## Examples
 
-<img src="https://github.com/Avngarde/QuikPic/blob/master/ReadmeImages/QuikPic1.png" width="600" style="border-radius: 12px;">
-<img src="https://github.com/Avngarde/QuikPic/blob/master/ReadmeImages/QuikPic2.png" width="600" style="border-radius: 12px;">
-<img src="https://github.com/Avngarde/QuikPic/blob/master/ReadmeImages/QuikPic2.png" width="600" style="border-radius: 12px;">
+<img src="https://github.com/Avngarde/QuikPic/blob/master/ReadmeImages/QuikPic1.png" width="900" style="border-radius: 12px;">
+<img src="https://github.com/Avngarde/QuikPic/blob/master/ReadmeImages/QuikPic2.png" width="900" style="border-radius: 12px;">
+<img src="https://github.com/Avngarde/QuikPic/blob/master/ReadmeImages/QuikPic3.png" width="900" style="border-radius: 12px;">
