@@ -1,6 +1,7 @@
-﻿@{
+﻿@using QuikPic.Web.Errors
+@{
     ViewData["Title"] = "Home Page";
-    var errorMessage = ViewData["ErrorMessage"];
+    Error? error = ViewData["Error"] is not null ? (Error)ViewData["Error"] : null;
 }
 
 <div class="container">
@@ -11,9 +12,9 @@
         </div>
     </div>
 
-    @if(errorMessage is not null)
+    @if(error is not null)
     {
-        <span class="errorMessage">@errorMessage</span>
+        <span class="errorMessage">@error.ErrorMessage</span>
     }
 
     <div class="containerHalf right">

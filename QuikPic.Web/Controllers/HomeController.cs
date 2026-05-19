@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using QuikPic.Web.Errors;
 using QuikPic.Web.Models;
 using SixLabors.ImageSharp;
 
@@ -16,9 +17,11 @@ public class HomeController : Controller
         _env = env;
     }
 
-    public IActionResult Index(string? errorMessage)
+    public IActionResult Index(Error? error)
     {
-        ViewData["ErrorMessage"] = errorMessage;
+        if (error.ErrorMessage is not null)
+            ViewData["Error"] = error;
+
         return View();
     }
 
@@ -26,7 +29,11 @@ public class HomeController : Controller
     public IActionResult UploadFile(IFormFile file)
     {
         if (file == null || file.Length == 0)
-            return RedirectToAction("Index", "Home", new { errorMessage = "File not found" });
+        {
+            return RedirectToAction("Index", "Home", new Error { 
+                ErrorMessage = "Selected file is not a valid image", ErrorType = ErrorType.FileIsNotAnImage 
+            });
+        }
 
         var uploadDir = Path.Combine(_env.WebRootPath, "uploads");
 
@@ -41,7 +48,11 @@ public class HomeController : Controller
         using (var stream = file.OpenReadStream())
         {
             if (!CheckIfImage(stream))
-                return RedirectToAction("Index", "Home", new { errorMessage = "Selected file is not a valid image" });
+            {
+                return RedirectToAction("Index", "Home", new Error { 
+                    ErrorMessage = "Selected file is not a valid image", ErrorType = ErrorType.FileIsNotAnImage 
+                });
+            }
         }
 
         using (var fileStream = new FileStream(filePath, FileMode.Create))
