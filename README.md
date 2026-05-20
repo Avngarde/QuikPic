@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <span style="font-weight: bold; font-size: 32px;">QuikPic</h1>
+  <h1>QuikPic</h1>
 </p>
 
 QuikPic is a lightweight, web-based photo editing application built with **ASP.NET MVC**. Designed for quick and intuitive image adjustments, it allows users to upload images and edit them right from their browser.
